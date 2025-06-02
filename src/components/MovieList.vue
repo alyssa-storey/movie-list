@@ -11,6 +11,7 @@
           :watched="movie.watched"
           :recommender="movie.recommender"
         ></movie-item>
+        <no-results v-if="noResults"></no-results>
       </ul>
     </div>
   </section>
@@ -18,12 +19,13 @@
 
 <script>
 import MovieItem from "./MovieItem.vue";
+import NoResults from "./NoResults.vue";
 import { useStore } from "vuex";
 import { reactive, computed } from "vue";
 import RecommendationFilter from "./RecommendationFilter.vue";
 
 export default {
-  components: { MovieItem, RecommendationFilter },
+  components: { MovieItem, NoResults, RecommendationFilter },
   setup() {
     const activeFilters = reactive({
       myChoice: true,
@@ -44,6 +46,8 @@ export default {
       });
     });
 
+    const noResults = computed(() => filteredMovies.value.length === 0);
+
     function setFilters(updatedFilters) {
       console.log("set filters called from movie list");
       activeFilters.myChoice = updatedFilters.myChoice;
@@ -52,7 +56,7 @@ export default {
 
     console.log("filteredMovies", filteredMovies);
 
-    return { activeFilters, filteredMovies, setFilters };
+    return { activeFilters, filteredMovies, setFilters, noResults };
   },
 };
 </script>
