@@ -7,31 +7,39 @@
         name="MovieTitle"
         type="text"
         v-model.trim="movieTitle"
+        :class="{ invalid: formIncomplete && movieTitle == '' }"
       />
     </div>
     <hr />
     <div class="form-control">
       <h4>Recommended By:</h4>
-      <div>
-        <input
-          id="my-choice"
-          name="myChoice"
-          type="radio"
-          :value="false"
-          v-model="wasRecommended"
-        />
-        <label for="my-choice">My Pick</label>
+      <div
+        :class="{ invalid: formIncomplete && wasRecommended == null }"
+        class="radio-wrapper"
+      >
+        <div>
+          <input
+            id="my-choice"
+            name="Recommendation"
+            type="radio"
+            :value="false"
+            v-model="wasRecommended"
+          />
+          <label for="my-choice">My Pick</label>
+        </div>
+        <div>
+          <input
+            id="friend-recommendation"
+            name="Recommendation"
+            type="radio"
+            :value="true"
+            v-model="wasRecommended"
+          />
+          <label for="friend-recommendation">Recommended</label>
+        </div>
       </div>
-      <div>
-        <input
-          id="friend-recommendation"
-          name="friendRecommendation"
-          type="radio"
-          :value="true"
-          v-model="wasRecommended"
-        />
-        <label for="friend-recommendation">Recommended</label>
-      </div>
+    </div>
+    <div class="form-control">
       <div v-if="wasRecommended">
         <label for="recommended-by">This movie was recommend by: </label>
         <input
@@ -39,6 +47,7 @@
           name="RecommendedBy"
           type="text"
           v-model.trim="recommender"
+          :class="{ invalid: formIncomplete && recommender == '' }"
         />
       </div>
     </div>
@@ -46,10 +55,11 @@
       <button>Add Movie</button>
     </div>
   </form>
+  <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -57,24 +67,61 @@ export default {
     const movieTitle = ref("");
     const wasRecommended = ref(null);
     const recommender = ref("");
+    let formIncomplete = ref(false);
 
     const store = useStore();
 
+    //methods
     function submitForm() {
-      var newMovie = {
-        id: 3,
-        title: movieTitle.value,
-        wasRecommended: wasRecommended.value,
-        recommender: recommender.value,
-        watched: false,
-      };
-      store.dispatch("addMovie", newMovie);
+      let validated = validateForm();
+      if (validated) {
+        var newMovie = {
+          id: 3,
+          title: movieTitle.value,
+          wasRecommended: wasRecommended.value,
+          recommender: recommender.value,
+          watched: false,
+        };
+        store.dispatch("addMovie", newMovie);
 
-      movieTitle.value = "";
-      wasRecommended.value = null;
+        formIncomplete.value = false;
+        movieTitle.value = "";
+        wasRecommended.value = null;
+      } else {
+        formIncomplete.value = true;
+      }
     }
 
-    return { movieTitle, wasRecommended, submitForm, recommender };
+    function validateForm() {
+      if (
+        movieTitle.value == "" ||
+        wasRecommended.value == null ||
+        (wasRecommended.value === true && recommender.value == "")
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    //watchers
+    watch([movieTitle, wasRecommended, recommender], () => {
+      if (
+        movieTitle.value != "" &&
+        wasRecommended.value != null &&
+        (wasRecommended.value == false ||
+          (wasRecommended.value === true && recommender.value != ""))
+      ) {
+        formIncomplete.value = false;
+      }
+    });
+
+    return {
+      movieTitle,
+      wasRecommended,
+      submitForm,
+      recommender,
+      formIncomplete,
+    };
   },
 };
 </script>
@@ -99,5 +146,29 @@ label {
 
 #movie-title {
   margin-left: 10px;
+}
+input.invalid {
+  border-color: red;
+}
+.radio-wrapper {
+  margin-top: 5px;
+  padding: 5px;
+  display: inline-block;
+}
+
+.radio-wrapper.invalid {
+  outline: 2px solid red;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.error-div {
+  outline: 2px solid red;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
 }
 </style>
