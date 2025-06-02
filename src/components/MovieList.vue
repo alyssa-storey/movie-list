@@ -1,29 +1,58 @@
 <template>
   <section>
-    <ul>
-      <movie-item
-        v-for="movie in movies"
-        :key="movie.id"
-        :id="movie.id"
-        :title="movie.title"
-        :watched="movie.watched"
-      ></movie-item>
-    </ul>
+    <recommendation-filter @change-filters="setFilters"></recommendation-filter>
+    <div class="container">
+      <ul class="movie-list">
+        <movie-item
+          v-for="movie in filteredMovies"
+          :key="movie.id"
+          :id="movie.id"
+          :title="movie.title"
+          :watched="movie.watched"
+          :recommender="movie.recommender"
+        ></movie-item>
+      </ul>
+    </div>
   </section>
 </template>
 
 <script>
 import MovieItem from "./MovieItem.vue";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { reactive, computed } from "vue";
+import RecommendationFilter from "./RecommendationFilter.vue";
 
 export default {
-  components: { MovieItem },
+  components: { MovieItem, RecommendationFilter },
   setup() {
-    const store = useStore();
-    const movies = computed(() => store.getters.movieList);
+    const activeFilters = reactive({
+      myChoice: true,
+      friendRecommendation: true,
+    });
 
-    return { movies };
+    const store = useStore();
+    // const movies = computed(() => store.getters.movieList);
+
+    const filteredMovies = computed(() => {
+      const movies = store.getters.movieList;
+
+      return movies.filter((movie) => {
+        return (
+          (activeFilters.myChoice && movie.wasRecommended === false) ||
+          (activeFilters.friendRecommendation && movie.wasRecommended === true)
+        );
+      });
+    });
+
+    function setFilters(updatedFilters) {
+      console.log("set filters called from movie list");
+      activeFilters.myChoice = updatedFilters.myChoice;
+      activeFilters.friendRecommendation = updatedFilters.friendRecommendation;
+    }
+
+    console.log("filteredMovies", filteredMovies);
+
+    return { activeFilters, filteredMovies, setFilters };
   },
 };
 </script>

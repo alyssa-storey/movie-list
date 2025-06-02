@@ -17,7 +17,7 @@
           id="my-choice"
           name="myChoice"
           type="radio"
-          value="false"
+          :value="false"
           v-model="wasRecommended"
         />
         <label for="my-choice">My Pick</label>
@@ -27,14 +27,23 @@
           id="friend-recommendation"
           name="friendRecommendation"
           type="radio"
-          value="true"
+          :value="true"
           v-model="wasRecommended"
         />
-        <label for="interest-tutorials">Recommended</label>
+        <label for="friend-recommendation">Recommended</label>
       </div>
-      <div>
-        <button>Add Movie</button>
+      <div v-if="wasRecommended">
+        <label for="recommended-by">This movie was recommend by: </label>
+        <input
+          id="recommended-by"
+          name="RecommendedBy"
+          type="text"
+          v-model.trim="recommender"
+        />
       </div>
+    </div>
+    <div>
+      <button>Add Movie</button>
     </div>
   </form>
 </template>
@@ -47,6 +56,7 @@ export default {
   setup() {
     const movieTitle = ref("");
     const wasRecommended = ref(null);
+    const recommender = ref("");
 
     const store = useStore();
 
@@ -55,6 +65,7 @@ export default {
         id: 3,
         title: movieTitle.value,
         wasRecommended: wasRecommended.value,
+        recommender: recommender.value,
         watched: false,
       };
       store.dispatch("addMovie", newMovie);
@@ -62,7 +73,8 @@ export default {
       movieTitle.value = "";
       wasRecommended.value = null;
     }
-    return { movieTitle, wasRecommended, submitForm };
+
+    return { movieTitle, wasRecommended, submitForm, recommender };
   },
 };
 </script>

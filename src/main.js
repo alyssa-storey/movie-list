@@ -12,13 +12,15 @@ const store = createStore({
                     id: 1,
                     title: "Roma",
                     wasRecommended: false,
+                    recommender: "",
                     watched: false,
                 },
                 {
                     id: 2,
                     title: "Moonlight",
                     wasRecommended: false,
-                    watched: true
+                    recommender: "",
+                    watched: true,
                 }
             ]
         }

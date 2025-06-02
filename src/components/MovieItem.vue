@@ -1,14 +1,19 @@
 <template>
-  <li>
+  <li :id="movieId + '-item'" @click="showDetails">
     <span>
       <label for="movieId">{{ movieTitle }}</label>
       <input
         type="checkbox"
-        id="{{ movieId }}"
+        :id="movieId"
         v-model="watchedMovie"
         @change="saveWatchedMovie"
+        @click.stop
       />
     </span>
+    <div class="details" :id="movieId + '-details'" v-if="viewDetails">
+      <hr />
+      <p>Recommended By: {{ recommendingFriend }}</p>
+    </div>
   </li>
 </template>
 
@@ -18,12 +23,15 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
-  props: ["id", "title", "watched"],
+  props: ["id", "title", "watched", "recommender"],
 
   setup(props) {
-    const movieTitle = ref(props.title);
-    const movieId = ref(props.id);
+    const movieTitle = props.title;
+    const movieId = props.id;
     const watchedMovie = ref(props.watched);
+    const recommendingFriend =
+      props.recommender != "" ? props.recommender : "My Choice";
+    const viewDetails = ref(false);
     const store = useStore();
 
     function saveWatchedMovie() {
@@ -35,7 +43,20 @@ export default {
       store.dispatch("saveWatchedMovie", movie);
     }
 
-    return { movieTitle, movieId, watchedMovie, saveWatchedMovie };
+    function showDetails(event) {
+      const clickedId = event.currentTarget.id;
+      viewDetails.value = !viewDetails.value;
+    }
+
+    return {
+      movieTitle,
+      movieId,
+      watchedMovie,
+      viewDetails,
+      saveWatchedMovie,
+      showDetails,
+      recommendingFriend,
+    };
   },
 };
 </script>
