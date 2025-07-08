@@ -15,13 +15,14 @@
       <p>Recommended By: {{ recommendingFriend }}</p>
       <p v-if="watchedMovie">My Thoughts: {{ review }}</p>
     </div>
-    <enter-review
-      :open="dialogIsVisible"
-      @hideDialog="dialogIsVisible = false"
-      @saveReview="saveMovieReview"
-    >
-    </enter-review>
   </li>
+  <enter-review
+    v-if="dialogIsVisible"
+    :open="dialogIsVisible"
+    @hideDialog="hideReviewModal"
+    @saveReview="saveMovieReview"
+  >
+  </enter-review>
 </template>
 
 
@@ -51,8 +52,10 @@ export default {
         dialogIsVisible.value = true;
       }
     }
-    function hideDialog() {
+    function hideReviewModal() {
+      console.log("closed");
       dialogIsVisible.value = false;
+      watchedMovie.value = false;
     }
 
     const store = useStore();
@@ -76,7 +79,6 @@ export default {
         review: value,
       };
       review.value = value;
-      console.log("save watched move - movie item", movie);
       store.dispatch("saveWatchedMovie", movie);
       dialogIsVisible.value = false;
     }
@@ -95,7 +97,7 @@ export default {
       recommendingFriend,
       review,
       dialogIsVisible,
-      hideDialog,
+      hideReviewModal,
       saveMovieReview,
       showDialog,
     };

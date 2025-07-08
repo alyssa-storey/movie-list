@@ -19,7 +19,8 @@
           </div>
         </div>
         <button class="submit" type="submit">Submit</button>
-        <button class="close" @click="$emit('hideDialog')">Close</button>
+        <button class="close" type="close" @click="closeModal">Close</button>
+        <!-- <button class="close" @click="$emit('hideDialog')">Close</button> -->
       </form>
     </dialog>
   </transition>
@@ -33,6 +34,7 @@ export default {
   setup(props, { emit }) {
     const movieReview = ref("");
     let formIncomplete = ref(false);
+    console.log("formIncomplete", formIncomplete.value);
 
     function submitForm() {
       let validated = validateForm();
@@ -41,6 +43,11 @@ export default {
       } else {
         formIncomplete.value = true;
       }
+    }
+
+    function closeModal() {
+      console.log("close modal - enterReview");
+      setTimeout(() => emit("hideDialog"), 0);
     }
 
     function validateForm() {
@@ -57,7 +64,7 @@ export default {
       }
     });
 
-    return { movieReview, submitForm, formIncomplete };
+    return { movieReview, submitForm, formIncomplete, closeModal };
   },
 };
 </script>
