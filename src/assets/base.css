@@ -153,3 +153,7 @@ li {
   border-radius: 5px;
   display: inline-block;
 }
+
+.close {
+  background-color: #898c8b;
+}

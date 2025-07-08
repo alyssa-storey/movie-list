@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <div>
+    <button @click="showAddMovieForm" v-show="!showForm">Add New Movie</button>
+  </div>
+  <form @submit.prevent="submitForm" v-show="showForm">
     <div class="form-control movie-title">
       <label for="movie-title">Movie Title</label>
       <input
@@ -52,7 +55,10 @@
       </div>
     </div>
     <div>
-      <button>Add Movie</button>
+      <button type="submit">Save</button>
+      <button @click="hideAddMovieForm" type="button" class="close">
+        Close
+      </button>
     </div>
   </form>
   <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>
@@ -68,15 +74,19 @@ export default {
     const wasRecommended = ref(null);
     const recommender = ref("");
     let formIncomplete = ref(false);
+    let showForm = ref(false);
 
     const store = useStore();
 
     //methods
     function submitForm() {
       let validated = validateForm();
+      let test = Math.random().toString() * 100;
+      console.log("new id", test);
+
       if (validated) {
         var newMovie = {
-          id: 3, //make this dynamic
+          id: Math.random().toString() * 100, //change this at some point
           title: movieTitle.value,
           wasRecommended: wasRecommended.value,
           recommender: recommender.value,
@@ -90,6 +100,14 @@ export default {
       } else {
         formIncomplete.value = true;
       }
+    }
+
+    function showAddMovieForm() {
+      showForm.value = true;
+    }
+
+    function hideAddMovieForm() {
+      showForm.value = false;
     }
 
     function validateForm() {
@@ -121,6 +139,9 @@ export default {
       submitForm,
       recommender,
       formIncomplete,
+      showForm,
+      showAddMovieForm,
+      hideAddMovieForm,
     };
   },
 };
