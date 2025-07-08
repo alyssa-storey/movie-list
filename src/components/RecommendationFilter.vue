@@ -2,7 +2,13 @@
   <div>
     <h2>Recommended Movies</h2>
     <span class="filter-option">
-      <input type="checkbox" id="myChoice" checked @change="setFilter" />
+      <input
+        type="checkbox"
+        id="myChoice"
+        checked
+        @change="setFilter"
+        v-model="filters.myChoice"
+      />
       <label for="myChoice">My Choice</label>
     </span>
     <span class="filter-option">
@@ -11,6 +17,7 @@
         id="friendRecommendation"
         checked
         @change="setFilter"
+        v-model="filters.friendRecommendation"
       />
       <label for="friendRecommendation">Friend Recommendation</label>
     </span>
