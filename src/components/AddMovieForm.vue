@@ -141,7 +141,7 @@ label {
 }
 
 .form-control {
-  margin: 20px;
+  margin: 20px 10px;
 }
 
 #movie-title {

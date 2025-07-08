@@ -104,13 +104,6 @@ export default {
 </script>
 
 <style scoped>
-li {
-  margin: 1rem 0;
-  border: 1px solid #ff81d0;
-  border-radius: 12px;
-  padding: 1rem;
-  list-style: none;
-}
 label {
   font-size: 20px;
   margin-right: 10px;

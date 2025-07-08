@@ -79,8 +79,69 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 15px;
+  font-size: 20px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  border-radius: 5px;
+  background-color: #919151;
+  font-size: 18px;
+  margin: 4px;
+  padding: 8px 16px;
+  font: Oxygen, sans-serif;
+  border: 1px solid white;
+  color: white;
+}
+
+textarea {
+  border-radius: 5px;
+  border: 1px solid white;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  color: #333;
+  padding: 10px;
+  width: 90%;
+  height: 75px;
+}
+
+input[type="text"] {
+  border-radius: 5px;
+  border: 1px solid white;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  color: #333;
+  padding: 5px;
+}
+
+input[type="checkbox"] {
+  accent-color: #919151;
+}
+
+input[type="radio"] {
+  accent-color: #919151;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #ff81d0;
+}
+
+textarea:focus {
+  outline: none;
+  border: 2px solid #105057;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+li {
+  margin: 1rem 0;
+  border: 1px solid #ff81d0;
+  border-radius: 12px;
+  padding: 1rem;
+  list-style: none;
 }

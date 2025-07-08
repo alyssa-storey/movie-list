@@ -42,3 +42,9 @@ function setFilter(event) {
   console.log("set filter called from recommendation filter");
 }
 </script>
+
+<style scoped>
+label {
+  margin: 1px 5px;
+}
+</style>

@@ -5,7 +5,7 @@
 <style scoped>
 div {
   margin: 1rem 0;
-  border: 1px solid #424242;
+  border: 1px solid #ff81d0;
   border-radius: 12px;
   padding: 1rem;
   list-style: none;

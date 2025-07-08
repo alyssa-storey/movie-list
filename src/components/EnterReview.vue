@@ -4,15 +4,18 @@
     <dialog open v-if="open">
       <form @submit.prevent="submitForm">
         <div class="form-control">
-          <label for="movie-review" class="review">What did you think?</label>
+          <!-- <label for="movie-review" class="review">What did you think?</label> -->
+          <div class="review">
+            <h1>What did you think?</h1>
+          </div>
           <textarea
             id="movie-review"
             name="movieReview"
             v-model.trim="movieReview"
           ></textarea>
         </div>
-        <button type="submit">Submit</button>
-        <button @click="$emit('hideDialog')">Close it!</button>
+        <button class="submit" type="submit">Submit</button>
+        <button class="close" @click="$emit('hideDialog')">Close</button>
       </form>
     </dialog>
   </transition>
@@ -60,6 +63,8 @@ dialog {
   background-color: #919151;
   z-index: 100;
   border: none;
+  text-align: center;
+
   /* animation: modal 0.3s ease-out forwards; */
 }
 
@@ -85,5 +90,13 @@ dialog {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+.close {
+  background-color: #898c8b;
+}
+
+.submit {
+  background-color: #400036;
 }
 </style>
