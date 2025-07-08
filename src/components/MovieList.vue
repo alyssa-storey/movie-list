@@ -10,6 +10,7 @@
           :title="movie.title"
           :watched="movie.watched"
           :recommender="movie.recommender"
+          :review="movie.review"
         ></movie-item>
         <no-results v-if="noResults"></no-results>
       </ul>
@@ -64,7 +65,7 @@ export default {
 <style scoped>
 ul {
   margin: 1rem 0;
-  border: 1px solid #424242;
+  border: 1px solid #ff81d0;
   border-radius: 12px;
   padding: 1rem;
   list-style: none;

@@ -14,6 +14,7 @@ const store = createStore({
                     wasRecommended: false,
                     recommender: "",
                     watched: false,
+                    review: "",
                 },
                 {
                     id: 2,
@@ -21,6 +22,7 @@ const store = createStore({
                     wasRecommended: false,
                     recommender: "",
                     watched: true,
+                    review: "Emotional",
                 }
             ]
         }
@@ -33,8 +35,11 @@ const store = createStore({
         },
         saveWatchedStatus(state, updatedMovie) {
             const movie = state.movieList.find(x => x.id === updatedMovie.id)
+            console.log('movie', movie);
+            console.log('updatedMovie', updatedMovie);
             if (movie) {
                 movie.watched = updatedMovie.watched;
+                movie.review = updatedMovie.review;
             }
             console.log('movieList', state.movieList)
         }
