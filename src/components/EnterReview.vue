@@ -12,7 +12,11 @@
             id="movie-review"
             name="movieReview"
             v-model.trim="movieReview"
+            :class="{ invalid: formIncomplete }"
           ></textarea>
+          <div class="error-div" v-if="formIncomplete">
+            Please complete all fields!
+          </div>
         </div>
         <button class="submit" type="submit">Submit</button>
         <button class="close" @click="$emit('hideDialog')">Close</button>
@@ -22,20 +26,38 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 export default {
   props: ["open"],
   emits: ["hideDialog", "saveReview"],
   setup(props, { emit }) {
     const movieReview = ref("");
+    let formIncomplete = ref(false);
 
     function submitForm() {
-      console.log("in submit form");
-      //movieReview.value = "";
-      emit("saveReview", movieReview.value);
+      let validated = validateForm();
+      if (validated) {
+        emit("saveReview", movieReview.value);
+      } else {
+        formIncomplete.value = true;
+      }
     }
 
-    return { movieReview, submitForm };
+    function validateForm() {
+      if (movieReview.value == "") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    //watchers
+    watch([movieReview], () => {
+      if (movieReview.value != "") {
+        formIncomplete.value = false;
+      }
+    });
+
+    return { movieReview, submitForm, formIncomplete };
   },
 };
 </script>
@@ -98,5 +120,13 @@ dialog {
 
 .submit {
   background-color: #400036;
+}
+
+textarea.invalid {
+  border-color: yellow;
+}
+
+.error-div {
+  color: white;
 }
 </style>

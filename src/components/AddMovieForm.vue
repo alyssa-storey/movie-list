@@ -76,7 +76,7 @@ export default {
       let validated = validateForm();
       if (validated) {
         var newMovie = {
-          id: 3,
+          id: 3, //make this dynamic
           title: movieTitle.value,
           wasRecommended: wasRecommended.value,
           recommender: recommender.value,
@@ -148,7 +148,7 @@ label {
   margin-left: 10px;
 }
 input.invalid {
-  border-color: red;
+  border-color: yellow;
 }
 .radio-wrapper {
   margin-top: 5px;
@@ -157,15 +157,7 @@ input.invalid {
 }
 
 .radio-wrapper.invalid {
-  outline: 2px solid red;
-  margin-top: 5px;
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-}
-
-.error-div {
-  outline: 2px solid red;
+  outline: 2px solid yellow;
   margin-top: 5px;
   padding: 5px;
   border-radius: 5px;
