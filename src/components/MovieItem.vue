@@ -15,12 +15,12 @@
       <p>Recommended By: {{ recommendingFriend }}</p>
       <p v-if="watchedMovie">My Thoughts: {{ review }}</p>
       <div class="editDeleteIcons">
-        <i
-          class="fa-solid fa-trash-can"
+        <font-awesome-icon
+          :icon="['fas', 'trash-can']"
           :id="movieId + '-delete'"
           @click="showDeleteConfirmation(movieId)"
-        ></i>
-        <i class="fa-solid fa-pen-to-square"></i>
+        />
+        <font-awesome-icon :icon="['fas', 'pen-to-square']" />
       </div>
     </div>
   </li>
@@ -114,6 +114,7 @@ export default {
 
     function deleteMovieRec() {
       store.dispatch("deleteMovie", movieId);
+      deleteModalIsVisible.value = false;
     }
 
     function showDetails(event) {

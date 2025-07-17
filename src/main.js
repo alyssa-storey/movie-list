@@ -3,6 +3,13 @@ import { createApp } from 'vue'
 import { createStore } from 'vuex';
 import App from './App.vue'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faTrashCan)
+library.add(faPenToSquare)
 
 const store = createStore({
     state() {
@@ -99,6 +106,7 @@ const store = createStore({
 
 const app = createApp(App)
 app.use(store);
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 
 
