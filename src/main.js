@@ -10,19 +10,43 @@ const store = createStore({
             movieList: [
                 {
                     id: 1,
-                    title: "Roma",
+                    title: "Arrival",
+                    wasRecommended: false,
+                    recommender: "",
+                    watched: true,
+                    review: "Had some good conversations after seeing this.",
+                },
+                {
+                    id: 2,
+                    title: "Interstellar",
                     wasRecommended: false,
                     recommender: "",
                     watched: false,
                     review: "",
                 },
                 {
-                    id: 2,
-                    title: "Moonlight",
+                    id: 3,
+                    title: "The Matrix",
                     wasRecommended: false,
                     recommender: "",
                     watched: true,
-                    review: "Emotional",
+                    review: "Fun action movie. Interesting concept, especially with the rise of AI.",
+                },
+                {
+                    id: 4,
+                    title: "Eternal Sunshine of the Spotless Mind",
+                    wasRecommended: true,
+                    recommender: "Jess",
+                    watched: true,
+                    review: "Loved it.",
+                },
+                {
+                    id: 5,
+                    title: "Goodfellas",
+                    wasRecommended: true,
+                    recommender: "Nathan",
+                    watched: false,
+                    review: "",
                 }
             ]
         }
@@ -42,6 +66,11 @@ const store = createStore({
                 movie.review = updatedMovie.review;
             }
             console.log('movieList', state.movieList)
+        },
+
+        deleteMovieRecommendation(state, movieId) {
+            const movie = state.movieList.find(x => x.id === movieId.id)
+            state.movieList.pop(movieId);
         }
 
     },
@@ -52,6 +81,10 @@ const store = createStore({
 
         saveWatchedMovie({ commit }, movie) {
             commit('saveWatchedStatus', movie)
+        },
+
+        deleteMovie({ commit }, movieId) {
+            commit('deleteMovieRecommendation', movieId)
         }
 
     },

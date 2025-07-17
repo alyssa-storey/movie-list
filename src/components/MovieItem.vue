@@ -14,6 +14,14 @@
       <hr />
       <p>Recommended By: {{ recommendingFriend }}</p>
       <p v-if="watchedMovie">My Thoughts: {{ review }}</p>
+      <div class="editDeleteIcons">
+        <i
+          class="fa-solid fa-trash-can"
+          :id="movieId + '-delete'"
+          @click="showDeleteConfirmation(movieId)"
+        ></i>
+        <i class="fa-solid fa-pen-to-square"></i>
+      </div>
     </div>
   </li>
   <enter-review
@@ -23,6 +31,13 @@
     @saveReview="saveMovieReview"
   >
   </enter-review>
+  <delete-movie
+    v-if="deleteModalIsVisible"
+    :open="deleteModalIsVisible"
+    @hideDialog="hideDeleteConfirmation"
+    @deleteMovie="deleteMovieRec"
+  >
+  </delete-movie>
 </template>
 
 
@@ -30,9 +45,10 @@
 import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import EnterReview from "./EnterReview.vue";
+import DeleteMovie from "./DeleteMovie.vue";
 
 export default {
-  components: { EnterReview },
+  components: { EnterReview, DeleteMovie },
   props: ["id", "title", "watched", "recommender", "review"],
 
   setup(props) {
@@ -45,6 +61,7 @@ export default {
     let review = ref(props.review);
     const viewDetails = ref(false);
     const dialogIsVisible = ref(false);
+    const deleteModalIsVisible = ref(false);
 
     function showDialog(movieId) {
       console.log("watchedMovie", watchedMovie);
@@ -54,6 +71,18 @@ export default {
     }
     function hideReviewModal() {
       console.log("closed");
+      dialogIsVisible.value = false;
+      watchedMovie.value = false;
+    }
+
+    function showDeleteConfirmation(movieId) {
+      deleteModalIsVisible.value = true;
+    }
+
+    function hideDeleteConfirmation() {
+      deleteModalIsVisible.value = false;
+    }
+    function hideReviewModal() {
       dialogIsVisible.value = false;
       watchedMovie.value = false;
     }
@@ -83,6 +112,10 @@ export default {
       dialogIsVisible.value = false;
     }
 
+    function deleteMovieRec() {
+      store.dispatch("deleteMovie", movieId);
+    }
+
     function showDetails(event) {
       const clickedId = event.currentTarget.id;
       viewDetails.value = !viewDetails.value;
@@ -100,6 +133,10 @@ export default {
       hideReviewModal,
       saveMovieReview,
       showDialog,
+      showDeleteConfirmation,
+      deleteModalIsVisible,
+      hideDeleteConfirmation,
+      deleteMovieRec,
     };
   },
 };
@@ -109,5 +146,13 @@ export default {
 label {
   font-size: 20px;
   margin-right: 10px;
+}
+
+.fa-pen-to-square {
+  margin-left: 5px;
+}
+
+.editDeleteIcons {
+  text-align: right;
 }
 </style>
