@@ -6,16 +6,18 @@
         <h1>Are you sure you want to delete this movie?</h1>
       </div>
       <button class="delete-btn" @click="deleteMovie">Delete</button>
-      <button class="close" type="button" @click="closeModal">Close</button>
+      <close-button @close="closeModal"></close-button>
     </dialog>
   </transition>
 </template>
 
 <script>
 import { ref } from "vue";
+import CloseButton from "./CloseButton.vue";
 export default {
   props: ["open"],
   emits: ["hideDialog", "deleteMovie"],
+  components: { CloseButton },
   setup(props, { emit }) {
     const movieReview = ref("");
 

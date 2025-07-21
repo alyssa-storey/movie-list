@@ -19,7 +19,7 @@
           </div>
         </div>
         <button class="submit" type="submit">Submit</button>
-        <button class="close" type="button" @click="closeModal">Close</button>
+        <close-button @close="closeModal"></close-button>
       </form>
     </dialog>
   </transition>
@@ -27,7 +27,10 @@
 
 <script>
 import { ref, watch } from "vue";
+import CloseButton from "./CloseButton.vue";
+
 export default {
+  components: { CloseButton },
   props: ["open"],
   emits: ["hideDialog", "saveReview"],
   setup(props, { emit }) {

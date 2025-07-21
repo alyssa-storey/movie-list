@@ -56,9 +56,7 @@
     </div>
     <div>
       <button type="submit">Save</button>
-      <button @click="hideAddMovieForm" type="button" class="close">
-        Close
-      </button>
+      <close-button @close="hideAddMovieForm"></close-button>
     </div>
   </form>
   <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>
@@ -67,8 +65,10 @@
 <script>
 import { ref, watch } from "vue";
 import { useStore } from "vuex";
+import CloseButton from "./CloseButton.vue";
 
 export default {
+  components: { CloseButton },
   setup() {
     const movieTitle = ref("");
     const wasRecommended = ref(null);
