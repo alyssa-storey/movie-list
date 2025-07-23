@@ -56,7 +56,10 @@
     </div>
     <div>
       <button type="submit">Save</button>
-      <close-button @close="hideAddMovieForm"></close-button>
+      <close-button
+        @close="hideAddMovieForm"
+        :modalName="modalName"
+      ></close-button>
     </div>
   </form>
   <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>

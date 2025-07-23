@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Recommended Movies</h2>
+    <h2>Alyssa's Movie List</h2>
     <span class="filter-option">
       <input
         type="checkbox"

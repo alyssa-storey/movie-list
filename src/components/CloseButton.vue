@@ -4,11 +4,24 @@
 
 
 <script>
+import { useStore } from "vuex";
 export default {
-  emits: ["close"],
-  setup(props, { emit }) {
+  props: {
+    modalName: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const store = useStore();
+
     function closeOpenElement() {
-      emit("close");
+      store.commit("hideElement", props.modalName);
+
+      //if closing rather than submitting review
+      if (props.modalName == "addReviewModal") {
+        store.commit("uncheck", store.state.selectedMovieId);
+      }
     }
 
     return {

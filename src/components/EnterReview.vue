@@ -4,7 +4,6 @@
     <dialog open v-if="open">
       <form @submit.prevent="submitForm">
         <div class="form-control">
-          <!-- <label for="movie-review" class="review">What did you think?</label> -->
           <div class="review">
             <h1>What did you think?</h1>
           </div>
@@ -19,7 +18,7 @@
           </div>
         </div>
         <button class="submit" type="submit">Submit</button>
-        <close-button @close="closeModal"></close-button>
+        <close-button :modalName="modalName"></close-button>
       </form>
     </dialog>
   </transition>
@@ -28,26 +27,37 @@
 <script>
 import { ref, watch } from "vue";
 import CloseButton from "./CloseButton.vue";
+import { useStore } from "vuex";
 
 export default {
   components: { CloseButton },
-  props: ["open"],
-  emits: ["hideDialog", "saveReview"],
-  setup(props, { emit }) {
+  props: {
+    open: Boolean,
+    modalName: {
+      type: String,
+      required: true,
+    },
+  },
+  setup() {
     const movieReview = ref("");
     let formIncomplete = ref(false);
+    const store = useStore();
+    const selectedMovieId = store.state.selectedMovieId;
 
-    function submitForm() {
+    function submitForm(value) {
       let validated = validateForm();
       if (validated) {
-        emit("saveReview", movieReview.value);
+        var movie = {
+          id: selectedMovieId,
+          watched: true,
+          review: movieReview.value,
+        };
+        //review.value = value;
+        store.dispatch("saveWatchedMovie", movie);
+        store.commit("hideElement", "addReviewModal");
       } else {
         formIncomplete.value = true;
       }
-    }
-
-    function closeModal() {
-      setTimeout(() => emit("hideDialog"), 0);
     }
 
     function validateForm() {
@@ -64,22 +74,17 @@ export default {
       }
     });
 
-    return { movieReview, submitForm, formIncomplete, closeModal };
+    return {
+      movieReview,
+      submitForm,
+      formIncomplete,
+      selectedMovieId,
+    };
   },
 };
 </script>
 
 <style scoped>
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
 dialog {
   position: fixed;
   top: 30vh;

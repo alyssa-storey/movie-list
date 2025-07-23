@@ -14,6 +14,12 @@ library.add(faPenToSquare)
 const store = createStore({
     state() {
         return {
+            selectedMovieId: null,
+            modals: {
+                addReviewModal: false,
+                deleteConfirmationModal: false,
+                editDetailsModal: false,
+            },
             movieList: [
                 {
                     id: 1,
@@ -59,6 +65,10 @@ const store = createStore({
         }
     },
     mutations: {
+        setSelectedMovieId(state, id) {
+            state.selectedMovieId = id;
+            console.log('id set:', state.selectedMovieId)
+        },
         addMovieToList(state, newMovie) {
             state.movieList.push(newMovie);
             console.log('movieList', state.movieList)
@@ -76,8 +86,26 @@ const store = createStore({
         },
 
         deleteMovieRecommendation(state, movieId) {
-            const movie = state.movieList.find(x => x.id === movieId.id)
-            state.movieList.pop(movieId);
+            state.movieList = state.movieList.filter(movie => movie.id !== movieId);
+        },
+
+        hideElement(state, modalName) {
+            console.log('in hide element MUTATION', modalName);
+            state.modals[modalName] = false;
+        },
+
+        showElement(state, modalName) {
+            console.log('in in show element MUTATION');
+            state.modals[modalName] = true;
+        },
+
+        uncheck(state, movieId) {
+            const movie = state.movieList.find(m => m.id === movieId);
+
+            if (movie) {
+                movie.watched = false;
+            }
+
         }
 
     },

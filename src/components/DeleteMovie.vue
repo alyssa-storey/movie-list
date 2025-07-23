@@ -6,45 +6,39 @@
         <h1>Are you sure you want to delete this movie?</h1>
       </div>
       <button class="delete-btn" @click="deleteMovie">Delete</button>
-      <close-button @close="closeModal"></close-button>
+      <close-button :modalName="modalName"></close-button>
     </dialog>
   </transition>
 </template>
 
 <script>
 import { ref } from "vue";
+import { useStore } from "vuex";
+
 import CloseButton from "./CloseButton.vue";
 export default {
-  props: ["open"],
-  emits: ["hideDialog", "deleteMovie"],
+  props: {
+    open: Boolean,
+    modalName: {
+      type: String,
+      required: true,
+    },
+  },
   components: { CloseButton },
-  setup(props, { emit }) {
-    const movieReview = ref("");
-
-    function closeModal() {
-      setTimeout(() => emit("hideDialog"), 0);
-    }
+  setup(props) {
+    const store = useStore();
 
     function deleteMovie() {
-      emit("deleteMovie", movieReview.value);
+      store.dispatch("deleteMovie", store.state.selectedMovieId);
+      store.commit("hideElement", props.modalName);
     }
 
-    return { closeModal, deleteMovie };
+    return { deleteMovie };
   },
 };
 </script>
 
 <style scoped>
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
 dialog {
   position: fixed;
   top: 30vh;
