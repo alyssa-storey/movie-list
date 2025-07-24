@@ -27,7 +27,7 @@
                   id="my-choice"
                   name="Recommendation"
                   type="radio"
-                  :value="wasRecommended"
+                  :value="'MyChoice'"
                   v-model="wasRecommended"
                 />
                 <label for="my-choice">My Pick</label>
@@ -37,15 +37,17 @@
                   id="friend-recommendation"
                   name="Recommendation"
                   type="radio"
-                  :value="wasRecommended"
+                  :value="'Recommended'"
                   v-model="wasRecommended"
                 />
                 <label for="friend-recommendation">Recommended</label>
               </div>
             </div>
           </div>
-          <!-- <label for="movie-title">Recommended By</label>
-            <input id="movie-title" type="text" v-model="recommendingFriend" /> -->
+          <div v-if="recommendedBy">
+            <label for="movie-title">Recommended By</label>
+            <input id="movie-title" type="text" v-model="recommendingFriend" />
+          </div>
         </div>
         <div>
           <label for="movie-review">Review</label>
@@ -59,29 +61,40 @@
           Please complete all fields!
         </div>
         <button class="submit" type="submit">Submit</button>
-        <close-button @close="closeModal"></close-button>
+        <close-button :modalName="modalName"></close-button>
       </form>
     </dialog>
   </transition>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
 import CloseButton from "./CloseButton.vue";
 export default {
-  props: ["open", "id", "title", "recommender", "movieReview"],
+  props: ["open", "id", "modalName"],
   // props: ["id", "title", "watched", "recommender", "review"],
 
   emits: ["hideDialog", "saveReview"],
   components: { CloseButton },
   setup(props, { emit }) {
+    const store = useStore();
+    const selectedMovie = store.state.selectedMovie;
     const movieId = props.id;
-    let movieTitle = props.title;
-    let movieReview = props.movieReview;
+    const movieTitle = ref(selectedMovie.title);
+    const movieReview = ref(selectedMovie.review);
+    const wasRecommended = ref(
+      selectedMovie.wasRecommended ? "Recommended" : "MyChoice"
+    );
+    const recommendedBy = ref(selectedMovie.wasRecommended);
+    const recommendingFriend =
+      selectedMovie.recommender != "" ? selectedMovie.recommender : "My Choice";
+
+    console.log("selectedMovie", selectedMovie);
+
     let formIncomplete = ref(false);
-    let recommendingFriend =
-      props.recommender != "" ? props.recommender : "My Choice";
-    let wasRecommended = props.recommender != "" ? true : false;
+
     function submitForm() {
       let validated = validateForm();
       if (validated) {
@@ -89,11 +102,6 @@ export default {
       } else {
         formIncomplete.value = true;
       }
-    }
-
-    function closeModal() {
-      console.log("heree");
-      setTimeout(() => emit("hideDialog"), 0);
     }
 
     function validateForm() {
@@ -114,9 +122,11 @@ export default {
       movieReview,
       submitForm,
       formIncomplete,
-      closeModal,
       movieTitle,
       recommendingFriend,
+      wasRecommended,
+      myChoice,
+      recommendedBy,
     };
   },
 };

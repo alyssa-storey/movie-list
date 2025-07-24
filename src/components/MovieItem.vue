@@ -28,15 +28,6 @@
       </div>
     </div>
   </li>
-  <edit-movie-details
-    v-if="editModalIsVisible"
-    :open="editModalIsVisible"
-    :id="selectedMovieId"
-    :title="movieTitle"
-    :recommender="recommendingFriend"
-    :movieReview="review"
-    :modalName="'editDetailsModal'"
-  ></edit-movie-details>
 </template>
 
 
@@ -44,10 +35,8 @@
 import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
-import EditMovieDetails from "./EditMovieDetails.vue";
 
 export default {
-  components: { EditMovieDetails },
   props: {
     id: Number,
     title: String,
@@ -83,14 +72,18 @@ export default {
     const reviewState = computed({
       get: () => props.review,
       set: (val) => emit("update:review", val),
-      //clear review
-      watchState,
     });
 
     const showDeleteConfirmation = (movieId) => {
       store.commit("showElement", "deleteConfirmationModal");
       console.log("showDeleteConfirmation - MovieItem.vue", movieId);
       store.commit("setSelectedMovieId", movieId);
+    };
+
+    const showEditModal = (movieId) => {
+      store.commit("showElement", "editDetailsModal");
+      store.commit("setSelectedMovieId", movieId);
+      store.commit("setSelectedMovie", movieId);
     };
 
     const showAddReviewModal = (movieId) => {
@@ -130,6 +123,7 @@ export default {
       watchState,
       reviewState,
       handleWatchedChange,
+      showEditModal,
     };
   },
 };

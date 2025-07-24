@@ -15,6 +15,12 @@ const store = createStore({
     state() {
         return {
             selectedMovieId: null,
+            selectedMovie: {
+                id: null,
+                title: '',
+                review: '',
+                recommender: ''
+            },
             modals: {
                 addReviewModal: false,
                 deleteConfirmationModal: false,
@@ -69,6 +75,10 @@ const store = createStore({
         setSelectedMovieId(state, id) {
             state.selectedMovieId = id;
             console.log('id set:', state.selectedMovieId)
+        },
+        setSelectedMovie(state, id) {
+            state.selectedMovie = state.movieList.find(x => x.id === id)
+            console.log('movie set:', state.selectedMovie)
         },
         addMovieToList(state, newMovie) {
             state.movieList.push(newMovie);

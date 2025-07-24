@@ -17,7 +17,7 @@
       </ul>
     </div>
   </section>
-  <!--ENTER REVIEW MODAL-->
+  <!--MODALS-->
   <enter-review
     v-if="enterReviewModalIsVisible"
     :open="enterReviewModalIsVisible"
@@ -30,6 +30,13 @@
     :modalName="'deleteConfirmationModal'"
   >
   </delete-movie>
+
+  <edit-movie-details
+    v-if="editModalIsVisible"
+    :open="editModalIsVisible"
+    :id="selectedMovieId"
+    :modalName="'editDetailsModal'"
+  ></edit-movie-details>
 </template>
 
 <script>
@@ -40,6 +47,7 @@ import { reactive, computed, ref } from "vue";
 import RecommendationFilter from "./RecommendationFilter.vue";
 import EnterReview from "./EnterReview.vue";
 import DeleteMovie from "./DeleteMovie.vue";
+import EditMovieDetails from "./EditMovieDetails.vue";
 
 export default {
   components: {
@@ -48,27 +56,34 @@ export default {
     RecommendationFilter,
     EnterReview,
     DeleteMovie,
+    EditMovieDetails,
   },
   setup(props) {
+    const store = useStore();
+
     const activeFilters = reactive({
       myChoice: true,
       friendRecommendation: true,
     });
     //let selectedMovieId = ref(null);
     const selectedMovieId = computed(() => store.state.selectedMovieId);
+
+    console.log("selectedMovieId", selectedMovieId.val);
+
     let watchedMovie = ref(false);
     const review = ref(props.review);
-    const movieTitle = props.title;
+    const movieTitle = ref(props.title);
 
-    const store = useStore();
     const enterReviewModalIsVisible = computed(
       () => store.state.modals.addReviewModal
     );
     const deleteModalIsVisible = computed(
       () => store.state.modals.deleteConfirmationModal
     );
-    console.log("deleteModalIsVisible - MovieList.vue");
-    // const movies = computed(() => store.getters.movieList);
+
+    const editModalIsVisible = computed(
+      () => store.state.modals.editDetailsModal
+    );
 
     const movieList = computed(() => store.state.movieList);
 
@@ -105,8 +120,9 @@ export default {
       enterReviewModalIsVisible,
       movieTitle,
       selectedMovieId,
-      setSelectedMovie,
       deleteModalIsVisible,
+      editModalIsVisible,
+      setSelectedMovie,
     };
   },
 };
