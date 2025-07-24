@@ -1,8 +1,10 @@
 <template>
   <div>
-    <button @click="showAddMovieForm" v-show="!showForm">Add New Movie</button>
+    <button @click="showAddMovieForm" v-show="!addNewMovieIsVisible">
+      Add New Movie
+    </button>
   </div>
-  <form @submit.prevent="submitForm" v-show="showForm">
+  <form @submit.prevent="submitForm" v-show="addNewMovieIsVisible">
     <div class="form-control movie-title">
       <label for="movie-title">Movie Title</label>
       <input
@@ -56,28 +58,31 @@
     </div>
     <div>
       <button type="submit">Save</button>
-      <close-button
-        @close="hideAddMovieForm"
-        :modalName="modalName"
-      ></close-button>
+      <close-button :modalName="modalName"></close-button>
     </div>
   </form>
   <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useStore } from "vuex";
 import CloseButton from "./CloseButton.vue";
 
 export default {
   components: { CloseButton },
+  props: {
+    modalName: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const movieTitle = ref("");
     const wasRecommended = ref(null);
     const recommender = ref("");
     let formIncomplete = ref(false);
-    let showForm = ref(false);
+    const addNewMovieIsVisible = computed(() => store.state.modals.addNewMovie);
 
     const store = useStore();
 
@@ -100,18 +105,15 @@ export default {
         formIncomplete.value = false;
         movieTitle.value = "";
         wasRecommended.value = null;
+        store.commit("hideElement", "addNewMovie");
       } else {
         formIncomplete.value = true;
       }
     }
 
-    function showAddMovieForm() {
-      showForm.value = true;
-    }
-
-    function hideAddMovieForm() {
-      showForm.value = false;
-    }
+    const showAddMovieForm = () => {
+      store.commit("showElement", "addNewMovie");
+    };
 
     function validateForm() {
       if (
@@ -142,9 +144,8 @@ export default {
       submitForm,
       recommender,
       formIncomplete,
-      showForm,
       showAddMovieForm,
-      hideAddMovieForm,
+      addNewMovieIsVisible,
     };
   },
 };

@@ -19,6 +19,7 @@ const store = createStore({
                 addReviewModal: false,
                 deleteConfirmationModal: false,
                 editDetailsModal: false,
+                addNewMovie: false
             },
             movieList: [
                 {

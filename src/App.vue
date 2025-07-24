@@ -2,7 +2,7 @@
   <div class="wrapper">
     <movie-list v-if="listHasMovies" />
     <no-movies v-else></no-movies>
-    <add-movie-form></add-movie-form>
+    <add-movie-form :modalName="'addNewMovie'"></add-movie-form>
   </div>
 </template>
 

@@ -112,7 +112,6 @@ export default {
       recommendingFriend,
       dialogIsVisible,
       showDeleteConfirmation,
-      showEditModal,
       editModalIsVisible,
       showAddReviewModal,
       watchState,
