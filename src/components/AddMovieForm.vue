@@ -60,8 +60,10 @@
       <button type="submit">Save</button>
       <close-button :modalName="modalName"></close-button>
     </div>
+    <div class="error-div" v-if="formIncomplete">
+      Please complete all fields!
+    </div>
   </form>
-  <div class="error-div" v-if="formIncomplete">Please complete all fields!</div>
 </template>
 
 <script>

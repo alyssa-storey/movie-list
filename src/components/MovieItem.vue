@@ -6,14 +6,14 @@
         type="checkbox"
         :id="movieId"
         v-model="watchState"
-        @change="() => showAddReviewModal(movieId)"
+        @change="(event) => handleWatchedChange(event, movieId)"
         @click.stop
       />
     </span>
     <div class="details" :id="movieId + '-details'" v-if="viewDetails">
       <hr />
       <p>Recommended By: {{ recommendingFriend }}</p>
-      <p v-if="watchedMovie">My Thoughts: {{ reviewState }}</p>
+      <p v-if="watchState">My Thoughts: {{ reviewState }}</p>
       <div class="editDeleteIcons">
         <font-awesome-icon
           :icon="['fas', 'trash-can']"
@@ -49,7 +49,7 @@ import EditMovieDetails from "./EditMovieDetails.vue";
 export default {
   components: { EditMovieDetails },
   props: {
-    id: String,
+    id: Number,
     title: String,
     watched: Boolean,
     recommender: String,
@@ -64,7 +64,6 @@ export default {
     const { movie } = props;
     const movieTitle = props.title;
     const movieId = props.id;
-    const watchedMovie = ref(props.watched);
     const recommendingFriend =
       props.recommender != "" ? props.recommender : "My Choice";
     //let review = ref(props.review);
@@ -84,6 +83,8 @@ export default {
     const reviewState = computed({
       get: () => props.review,
       set: (val) => emit("update:review", val),
+      //clear review
+      watchState,
     });
 
     const showDeleteConfirmation = (movieId) => {
@@ -97,6 +98,20 @@ export default {
       store.commit("showElement", "addReviewModal");
     };
 
+    function handleWatchedChange(event, movieId) {
+      const isChecked = event.target.checked;
+      if (isChecked) {
+        showAddReviewModal(movieId);
+      } else {
+        var movie = {
+          id: movieId,
+          watched: false,
+          review: "",
+        };
+        store.dispatch("saveWatchedMovie", movie);
+      }
+    }
+
     //show details
     function showDetails(event) {
       const clickedId = event.currentTarget.id;
@@ -106,16 +121,15 @@ export default {
     return {
       movieTitle,
       movieId,
-      watchedMovie,
       viewDetails,
       showDetails,
       recommendingFriend,
       dialogIsVisible,
       showDeleteConfirmation,
       editModalIsVisible,
-      showAddReviewModal,
       watchState,
       reviewState,
+      handleWatchedChange,
     };
   },
 };

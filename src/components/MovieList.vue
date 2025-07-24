@@ -21,7 +21,6 @@
   <enter-review
     v-if="enterReviewModalIsVisible"
     :open="enterReviewModalIsVisible"
-    :selected="selectedMovieId"
     :modalName="'addReviewModal'"
   >
   </enter-review>
