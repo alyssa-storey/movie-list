@@ -1,7 +1,7 @@
 <template>
   <li :id="movieId + '-item'" @click="showDetails">
     <span>
-      <label for="movieId">{{ movieTitle }}</label>
+      <label for="movieId">{{ title }}</label>
       <input
         type="checkbox"
         :id="movieId"
@@ -12,8 +12,11 @@
     </span>
     <div class="details" :id="movieId + '-details'" v-if="viewDetails">
       <hr />
-      <p>Recommended By: {{ recommendingFriend }}</p>
-      <p v-if="watchState">My Thoughts: {{ reviewState }}</p>
+      <p>
+        Recommended By:
+        {{ recommender !== "" ? recommender : "My Choice" }}
+      </p>
+      <p v-if="watchState">My Thoughts: {{ review }}</p>
       <div class="editDeleteIcons">
         <font-awesome-icon
           :icon="['fas', 'trash-can']"
@@ -51,28 +54,24 @@ export default {
   setup(props, { emit }) {
     console.log("props", props);
     const { movie } = props;
-    const movieTitle = props.title;
     const movieId = props.id;
-    const recommendingFriend =
-      props.recommender != "" ? props.recommender : "My Choice";
-    //let review = ref(props.review);
     const viewDetails = ref(false);
     const dialogIsVisible = ref(false);
     const editModalIsVisible = ref(false);
     const selectedMovieId = computed(() => store.state.selectedMovieId);
     console.log("selectedMovieId", selectedMovieId);
     const store = useStore();
-    //Computed Properties
 
+    //Computed Properties
     const watchState = computed({
       get: () => props.watched,
       set: (val) => emit("update:watched", val),
     });
 
-    const reviewState = computed({
-      get: () => props.review,
-      set: (val) => emit("update:review", val),
-    });
+    // const reviewState = computed({
+    //   get: () => props.review,
+    //   set: (val) => emit("update:review", val),
+    // });
 
     const showDeleteConfirmation = (movieId) => {
       store.commit("showElement", "deleteConfirmationModal");
@@ -112,16 +111,14 @@ export default {
     }
 
     return {
-      movieTitle,
       movieId,
       viewDetails,
       showDetails,
-      recommendingFriend,
       dialogIsVisible,
       showDeleteConfirmation,
       editModalIsVisible,
       watchState,
-      reviewState,
+      // reviewState,
       handleWatchedChange,
       showEditModal,
     };
