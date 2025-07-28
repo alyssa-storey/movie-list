@@ -167,10 +167,6 @@ label {
   padding-left: 10px;
 }
 
-.form-control {
-  margin: 20px 10px;
-}
-
 #movie-title {
   margin-left: 10px;
 }

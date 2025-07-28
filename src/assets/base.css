@@ -124,6 +124,10 @@ input[type="radio"] {
   accent-color: #919151;
 }
 
+.edit-movie-details input[type="radio"] {
+  accent-color: #400036;
+}
+
 input:focus {
   outline: none;
   border: 1px solid #ff81d0;
@@ -166,4 +170,26 @@ li {
   height: 100vh;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.edit-section {
+  margin: 1rem 0;
+  border: 1px solid #ff81d0;
+  border-radius: 12px;
+  padding: 1rem;
+  list-style: none;
+}
+
+.form-control {
+  margin: 20px 10px;
+}
+
+
+.edit-movie-details label {
+  color: white;
+  margin-right: 10px;
+}
+
+.submit {
+  background-color: #400036;
 }
