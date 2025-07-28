@@ -91,7 +91,19 @@ export default {
     function submitForm() {
       let validated = validateForm();
       if (validated) {
-        console.log("SUBMIT EDIT!");
+        var movie = {
+          id: selectedMovie.id,
+          title: movieTitle.value,
+          wasRecommended: wasRecommended.value == "Recommended" ? true : false,
+          recommender:
+            wasRecommended.value == "Recommended"
+              ? recommendingFriend.value
+              : "",
+          review: movieReview.value,
+        };
+        console.log("submitting movie", movie);
+        store.commit("editMovie", movie);
+        store.commit("hideElement", "editDetailsModal");
       } else {
         formIncomplete.value = true;
       }

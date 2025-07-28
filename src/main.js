@@ -96,6 +96,17 @@ const store = createStore({
             console.log('movieList', state.movieList)
         },
 
+        editMovie(state, updatedMovie) {
+            const movie = state.movieList.find(x => x.id === updatedMovie.id)
+            if (movie) {
+                console.log('update movie')
+                movie.title = updatedMovie.title;
+                movie.wasRecommended = updatedMovie.wasRecommended;
+                movie.recommender = updatedMovie.recommender; //This is breaking the filter.How to handle this ?
+                movie.review = updatedMovie.review;
+            }
+        },
+
         deleteMovieRecommendation(state, movieId) {
             state.movieList = state.movieList.filter(movie => movie.id !== movieId);
         },
