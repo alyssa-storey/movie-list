@@ -145,7 +145,6 @@ export default {
       movieTitle,
       recommendingFriend,
       wasRecommended,
-      myChoice,
       recommendedBy,
       watched,
     };

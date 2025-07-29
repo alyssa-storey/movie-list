@@ -5,14 +5,14 @@
       <button
         @click="resetFilter(true)"
         class="tab"
-        :class="{ active: filterByRecommendation.value }"
+        :class="{ active: filterByRecommendation }"
       >
         By Recommendation
       </button>
       <button
         @click="resetFilter(false)"
         class="tab"
-        :class="{ active: !filterByRecommendation.value }"
+        :class="{ active: !filterByRecommendation }"
       >
         By Watched
       </button>
@@ -124,9 +124,9 @@ label {
   margin: 0px;
   border: 1px solid #a9a972;
 }
-.active {
-  background-color: #919151;
-  border: 1px solid #919151;
+.tab.active {
+  background-color: #919151 !important;
+  border: 1px solid #919151 !important;
 }
 </style>
 
