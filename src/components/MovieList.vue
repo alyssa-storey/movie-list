@@ -62,8 +62,11 @@ export default {
     const store = useStore();
 
     const activeFilters = reactive({
+      filterByRecommendation: true,
       myChoice: true,
       friendRecommendation: true,
+      watched: true,
+      notWatched: true,
     });
     //let selectedMovieId = ref(null);
     const selectedMovieId = computed(() => store.state.selectedMovieId);
@@ -90,18 +93,36 @@ export default {
     const filteredMovies = computed(() => {
       return movieList.value.filter((movie) => {
         return (
-          (activeFilters.myChoice && movie.wasRecommended === false) ||
-          (activeFilters.friendRecommendation && movie.wasRecommended === true)
+          (activeFilters.filterByRecommendation &&
+            activeFilters.myChoice &&
+            movie.wasRecommended === false) ||
+          (activeFilters.filterByRecommendation &&
+            activeFilters.friendRecommendation &&
+            movie.wasRecommended === true) ||
+          (!activeFilters.filterByRecommendation &&
+            activeFilters.watched &&
+            movie.watched === true) ||
+          (!activeFilters.filterByRecommendation &&
+            activeFilters.notWatched &&
+            movie.watched === false)
         );
       });
     });
 
+    console.log("filteredMovies", filteredMovies);
     const noResults = computed(() => filteredMovies.value.length === 0);
 
     function setFilters(updatedFilters) {
       console.log("set filters called from movie list");
+      console.log("updatedFilters", updatedFilters);
+      activeFilters.filterByRecommendation =
+        updatedFilters.filterByRecommendation;
       activeFilters.myChoice = updatedFilters.myChoice;
       activeFilters.friendRecommendation = updatedFilters.friendRecommendation;
+      activeFilters.watched = updatedFilters.watched;
+      activeFilters.notWatched = updatedFilters.notWatched;
+
+      console.log("activeFilters", activeFilters);
     }
 
     console.log("filteredMovies", filteredMovies);
