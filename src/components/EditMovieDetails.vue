@@ -102,8 +102,8 @@ export default {
           review: movieReview.value,
         };
         console.log("submitting movie", movie);
-        store.commit("editMovie", movie);
-        store.commit("hideElement", "editDetailsModal");
+        store.dispatch("editMovieAction", movie);
+        store.commit("HIDE_ELEMENT", "editDetailsModal");
       } else {
         formIncomplete.value = true;
       }

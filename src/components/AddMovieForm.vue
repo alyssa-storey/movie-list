@@ -104,19 +104,19 @@ export default {
           recommender: recommender.value,
           watched: false,
         };
-        store.dispatch("addMovie", newMovie);
+        store.dispatch("addMovieAction", newMovie);
 
         formIncomplete.value = false;
         movieTitle.value = "";
         wasRecommended.value = null;
-        store.commit("hideElement", "addNewMovie");
+        store.commit("HIDE_ELEMENT", "addNewMovie");
       } else {
         formIncomplete.value = true;
       }
     }
 
     const showAddMovieForm = () => {
-      store.commit("showElement", "addNewMovie");
+      store.commit("SHOW_ELEMENT", "addNewMovie");
     };
 
     function validateForm() {

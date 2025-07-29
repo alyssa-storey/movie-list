@@ -74,20 +74,19 @@ export default {
     // });
 
     const showDeleteConfirmation = (movieId) => {
-      store.commit("showElement", "deleteConfirmationModal");
-      console.log("showDeleteConfirmation - MovieItem.vue", movieId);
-      store.commit("setSelectedMovieId", movieId);
+      store.commit("SHOW_ELEMENT", "deleteConfirmationModal");
+      store.commit("SET_SELECTED_MOVIE_ID", movieId);
     };
 
     const showEditModal = (movieId) => {
-      store.commit("showElement", "editDetailsModal");
-      store.commit("setSelectedMovieId", movieId);
-      store.commit("setSelectedMovie", movieId);
+      store.commit("SHOW_ELEMENT", "editDetailsModal");
+      store.commit("SET_SELECTED_MOVIE_ID", movieId);
+      store.commit("SET_SELECTED_MOVIE", movieId);
     };
 
     const showAddReviewModal = (movieId) => {
-      store.commit("setSelectedMovieId", movieId);
-      store.commit("showElement", "addReviewModal");
+      store.commit("SET_SELECTED_MOVIE_ID", movieId);
+      store.commit("SHOW_ELEMENT", "addReviewModal");
     };
 
     function handleWatchedChange(event, movieId) {

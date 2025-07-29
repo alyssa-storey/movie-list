@@ -16,11 +16,11 @@ export default {
     const store = useStore();
 
     function closeOpenElement() {
-      store.commit("hideElement", props.modalName);
+      store.commit("HIDE_ELEMENT", props.modalName);
 
       //if closing rather than submitting review
       if (props.modalName == "addReviewModal") {
-        store.commit("uncheck", store.state.selectedMovieId);
+        store.commit("UNCHECK", store.state.selectedMovieId);
       }
     }
 

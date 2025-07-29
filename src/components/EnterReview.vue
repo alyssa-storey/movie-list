@@ -53,8 +53,8 @@ export default {
           review: movieReview.value,
         };
         //review.value = value;
-        store.dispatch("saveWatchedMovie", movie);
-        store.commit("hideElement", "addReviewModal");
+        store.dispatch("saveReviewAction", movie);
+        store.commit("HIDE_ELEMENT", "addReviewModal");
       } else {
         formIncomplete.value = true;
       }

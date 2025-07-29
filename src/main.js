@@ -72,20 +72,18 @@ const store = createStore({
         }
     },
     mutations: {
-        setSelectedMovieId(state, id) {
+        SET_SELECTED_MOVIE_ID(state, id) {
             state.selectedMovieId = id;
-            console.log('id set:', state.selectedMovieId)
         },
-        setSelectedMovie(state, id) {
+        SET_SELECTED_MOVIE(state, id) {
             state.selectedMovie = state.movieList.find(x => x.id === id)
-            console.log('movie set:', state.selectedMovie)
         },
-        addMovieToList(state, newMovie) {
+        ADD_MOVIE(state, newMovie) {
             state.movieList.push(newMovie);
             console.log('movieList', state.movieList)
 
         },
-        saveWatchedStatus(state, updatedMovie) {
+        SAVE_REVIEW(state, updatedMovie) {
             const movie = state.movieList.find(x => x.id === updatedMovie.id)
             console.log('movie', movie);
             console.log('updatedMovie', updatedMovie);
@@ -96,7 +94,7 @@ const store = createStore({
             console.log('movieList', state.movieList)
         },
 
-        editMovie(state, updatedMovie) {
+        EDIT_MOVIE(state, updatedMovie) {
             const movie = state.movieList.find(x => x.id === updatedMovie.id)
             if (movie) {
                 console.log('update movie')
@@ -107,41 +105,41 @@ const store = createStore({
             }
         },
 
-        deleteMovieRecommendation(state, movieId) {
+        DELETE_MOVIE(state, movieId) {
             state.movieList = state.movieList.filter(movie => movie.id !== movieId);
         },
 
-        hideElement(state, modalName) {
-            console.log('in hide element MUTATION', modalName);
+        HIDE_ELEMENT(state, modalName) {
             state.modals[modalName] = false;
         },
 
-        showElement(state, modalName) {
-            console.log('in in show element MUTATION');
+        SHOW_ELEMENT(state, modalName) {
             state.modals[modalName] = true;
         },
 
-        uncheck(state, movieId) {
+        UNCHECK(state, movieId) {
             const movie = state.movieList.find(m => m.id === movieId);
 
             if (movie) {
                 movie.watched = false;
             }
-
         }
-
     },
     actions: {
-        addMovie({ commit }, newMovie) {
-            commit('addMovieToList', newMovie);
+        addMovieAction({ commit }, newMovie) {
+            commit('ADD_MOVIE', newMovie);
         },
 
-        saveWatchedMovie({ commit }, movie) {
-            commit('saveWatchedStatus', movie)
+        saveReviewAction({ commit }, movie) {
+            commit('SAVE_REVIEW', movie)
         },
 
-        deleteMovie({ commit }, movieId) {
-            commit('deleteMovieRecommendation', movieId)
+        deleteMovieAction({ commit }, movieId) {
+            commit('DELETE_MOVIE', movieId)
+        },
+
+        editMovieAction({ commit }, movie) {
+            commit('EDIT_MOVIE', movie);
         }
 
     },

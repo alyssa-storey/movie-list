@@ -29,8 +29,8 @@ export default {
     const store = useStore();
 
     function deleteMovie() {
-      store.dispatch("deleteMovie", store.state.selectedMovieId);
-      store.commit("hideElement", props.modalName);
+      store.dispatch("deleteMovieAction", store.state.selectedMovieId);
+      store.commit("HIDE_ELEMENT", props.modalName);
     }
 
     return { deleteMovie };
