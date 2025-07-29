@@ -130,8 +130,7 @@ export default {
           (wasRecommended.value == "MyChoice" ||
             (wasRecommended.value == "Recommended" &&
               recommendingFriend.value != "")) &&
-          watched.value &&
-          movieReview.value != ""
+          (!watched.value || (watched.value && movieReview.value != ""))
         ) {
           formIncomplete.value = false;
         }
