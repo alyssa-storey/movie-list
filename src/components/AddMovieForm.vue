@@ -84,7 +84,9 @@ export default {
     const wasRecommended = ref(null);
     const recommender = ref("");
     let formIncomplete = ref(false);
-    const addNewMovieIsVisible = computed(() => store.state.modals.addNewMovie);
+    const addNewMovieIsVisible = computed(
+      () => store.state.movieList.length <= 0 || store.state.modals.addNewMovie
+    );
 
     const store = useStore();
 
