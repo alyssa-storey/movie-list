@@ -1,5 +1,7 @@
 <template>
-  <button @click="closeOpenElement" type="button" class="close">Close</button>
+  <button @click="closeOpenElement" type="button" class="close-btn">
+    Close
+  </button>
 </template>
 
 

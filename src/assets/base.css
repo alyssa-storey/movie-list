@@ -85,6 +85,90 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.wrapper {
+  width: 100%;
+}
+
+.item {
+  margin: 1rem 0;
+  border: 1px solid #ff81d0;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+li {
+  list-style: none;
+}
+
+
+h1 {
+  color: white;
+}
+
+/* Transition */
+.modal-enter-active {
+  animation: modal 0.3s ease-out;
+}
+
+.modal-leave-active {
+  animation: modal 0.3s ease-in reverse;
+}
+
+@keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Movie Item */
+.list-movie {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/*Icons*/
+.fa-pen-to-square {
+  margin-left: 5px;
+}
+
+.editDeleteIcons {
+  text-align: right;
+}
+
+/* Edit Movie */
+.edit-movie-details label {
+  color: white;
+  margin-right: 10px;
+}
+
+/* Add Movie */
+.form-control {
+  margin: 20px 10px;
+}
+
+.add-movie label {
+  padding-left: 10px;
+
+}
+
+#movie-title {
+  margin-left: 10px;
+}
+
+/* .radio-wrapper {
+  margin-top: 5px;
+  padding: 5px;
+  display: inline-block;
+} */
+
+/* Buttons */
 button {
   border-radius: 5px;
   background-color: #919151;
@@ -94,6 +178,56 @@ button {
   font: Oxygen, sans-serif;
   border: 1px solid white;
   color: white;
+}
+
+.delete-btn,
+.submit-btn {
+  background-color: #400036;
+}
+
+.close-btn {
+  background-color: #898c8b;
+}
+
+/* Forms */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+dialog {
+  position: fixed;
+  top: 30vh;
+  width: 30rem;
+  left: calc(50% - 15rem);
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: #919151;
+  z-index: 100;
+  border: none;
+  text-align: center;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border: 1px solid #ff81d0;
+}
+
+.edit-movie-details input[type="radio"] {
+  accent-color: #400036;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: #919151;
 }
 
 textarea {
@@ -116,41 +250,9 @@ input[type="text"] {
   padding: 5px;
 }
 
-input[type="checkbox"] {
-  accent-color: #919151;
-}
-
-input[type="radio"] {
-  accent-color: #919151;
-}
-
-.edit-movie-details input[type="radio"] {
-  accent-color: #400036;
-}
-
-input:focus {
-  outline: none;
-  border: 1px solid #ff81d0;
-}
-
-textarea:focus {
-  outline: none;
-  border: 2px solid #105057;
-}
-
-.wrapper {
-  width: 100%;
-}
-
-li {
-  margin: 1rem 0;
-  border: 1px solid #ff81d0;
-  border-radius: 12px;
-  padding: 1rem;
-  list-style: none;
-}
-
-.error-div {
+/* Error */
+.error-div,
+.invalid {
   outline: 2px solid yellow;
   margin: 10px 0px;
   padding: 10px;
@@ -158,38 +260,21 @@ li {
   display: inline-block;
 }
 
-.close {
-  background-color: #898c8b;
+/* Recommendation Filter */
+.tab {
+  border-radius: 0px;
+  background-color: #a9a972;
+  margin: 0px;
+  border: 1px solid #a9a972;
 }
 
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.3);
+/*This is a little lighter -- not sure which I like better yet bfbf90*/
+
+.tab.active {
+  background-color: #919151 !important;
+  border: 1px solid #919151 !important;
 }
 
-.edit-section {
-  margin: 1rem 0;
-  border: 1px solid #ff81d0;
-  border-radius: 12px;
-  padding: 1rem;
-  list-style: none;
-}
-
-.form-control {
-  margin: 20px 10px;
-}
-
-
-.edit-movie-details label {
-  color: white;
-  margin-right: 10px;
-}
-
-.submit {
-  background-color: #400036;
+.filter-option {
+  margin: 1px 5px;
 }

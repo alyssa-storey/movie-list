@@ -27,7 +27,7 @@
             @change="setFilter"
             v-model="filters.myChoice"
           />
-          <label for="myChoice">My Choice</label>
+          <label for="myChoice" class="filter-option">My Choice</label>
         </span>
         <span class="filter-option">
           <input
@@ -37,7 +37,9 @@
             @change="setFilter"
             v-model="filters.friendRecommendation"
           />
-          <label for="friendRecommendation">Friend Recommendation</label>
+          <label for="friendRecommendation" class="filter-option"
+            >Friend Recommendation</label
+          >
         </span>
       </span>
 
@@ -50,7 +52,7 @@
             @change="setFilter"
             v-model="filters.watched"
           />
-          <label for="myChoice">Watched</label>
+          <label for="myChoice" class="filter-option">Watched</label>
         </span>
         <span class="filter-option">
           <input
@@ -60,7 +62,9 @@
             @change="setFilter"
             v-model="filters.notWatched"
           />
-          <label for="friendRecommendation">Not Watched</label>
+          <label for="friendRecommendation" class="filter-option"
+            >Not Watched</label
+          >
         </span>
       </span>
     </div>
@@ -112,22 +116,3 @@ function resetFilter(val) {
   filters.notWatched = true;
 }
 </script>
-
-<style scoped>
-label {
-  margin: 1px 5px;
-}
-
-.tab {
-  border-radius: 0px;
-  background-color: #a9a972;
-  margin: 0px;
-  border: 1px solid #a9a972;
-}
-.tab.active {
-  background-color: #919151 !important;
-  border: 1px solid #919151 !important;
-}
-</style>
-
-<!-- This is a little lighter -- not sure which I like better yet bfbf90 -->

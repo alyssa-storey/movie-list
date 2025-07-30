@@ -1,7 +1,7 @@
 <template>
-  <li :id="movieId + '-item'" @click="showDetails">
+  <li :id="movieId + '-item'" @click="showDetails" class="item">
     <span>
-      <label for="movieId">{{ title }}</label>
+      <label class="list-movie" for="movieId">{{ title }}</label>
       <input
         type="checkbox"
         :id="movieId"
@@ -124,18 +124,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-label {
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.fa-pen-to-square {
-  margin-left: 5px;
-}
-
-.editDeleteIcons {
-  text-align: right;
-}
-</style>

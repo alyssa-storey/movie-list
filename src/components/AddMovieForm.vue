@@ -1,69 +1,75 @@
 <template>
-  <div>
-    <button @click="showAddMovieForm" v-show="!addNewMovieIsVisible">
-      Add New Movie
-    </button>
-  </div>
-  <form @submit.prevent="submitForm" v-show="addNewMovieIsVisible">
-    <div class="form-control movie-title">
-      <label for="movie-title">Movie Title</label>
-      <input
-        id="movie-title"
-        name="MovieTitle"
-        type="text"
-        v-model.trim="movieTitle"
-        :class="{ invalid: formIncomplete && movieTitle == '' }"
-      />
+  <div class="add-movie">
+    <div>
+      <button @click="showAddMovieForm" v-show="!addNewMovieIsVisible">
+        Add New Movie
+      </button>
     </div>
-    <hr />
-    <div class="form-control">
-      <h4>Recommended By:</h4>
-      <div
-        :class="{ invalid: formIncomplete && wasRecommended == null }"
-        class="radio-wrapper"
-      >
-        <div>
-          <input
-            id="my-choice"
-            name="Recommendation"
-            type="radio"
-            :value="false"
-            v-model="wasRecommended"
-          />
-          <label for="my-choice">My Pick</label>
-        </div>
-        <div>
-          <input
-            id="friend-recommendation"
-            name="Recommendation"
-            type="radio"
-            :value="true"
-            v-model="wasRecommended"
-          />
-          <label for="friend-recommendation">Recommended</label>
-        </div>
-      </div>
-    </div>
-    <div class="form-control">
-      <div v-if="wasRecommended">
-        <label for="recommended-by">This movie was recommend by: </label>
+    <form
+      @submit.prevent="submitForm"
+      v-show="addNewMovieIsVisible"
+      class="item"
+    >
+      <div class="form-control movie-title">
+        <label for="movie-title">Movie Title</label>
         <input
-          id="recommended-by"
-          name="RecommendedBy"
+          id="movie-title"
+          name="MovieTitle"
           type="text"
-          v-model.trim="recommender"
-          :class="{ invalid: formIncomplete && recommender == '' }"
+          v-model.trim="movieTitle"
+          :class="{ invalid: formIncomplete && movieTitle == '' }"
         />
       </div>
-    </div>
-    <div>
-      <button type="submit">Save</button>
-      <close-button :modalName="modalName"></close-button>
-    </div>
-    <div class="error-div" v-if="formIncomplete">
-      Please complete all fields!
-    </div>
-  </form>
+      <hr />
+      <div class="form-control">
+        <h4>Recommended By:</h4>
+        <div
+          :class="{ invalid: formIncomplete && wasRecommended == null }"
+          class="radio-wrapper"
+        >
+          <div>
+            <input
+              id="my-choice"
+              name="Recommendation"
+              type="radio"
+              :value="false"
+              v-model="wasRecommended"
+            />
+            <label for="my-choice">My Pick</label>
+          </div>
+          <div>
+            <input
+              id="friend-recommendation"
+              name="Recommendation"
+              type="radio"
+              :value="true"
+              v-model="wasRecommended"
+            />
+            <label for="friend-recommendation">Recommended</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-control">
+        <div v-if="wasRecommended">
+          <label for="recommended-by">This movie was recommend by: </label>
+          <input
+            id="recommended-by"
+            name="RecommendedBy"
+            type="text"
+            v-model.trim="recommender"
+            :class="{ invalid: formIncomplete && recommender == '' }"
+          />
+        </div>
+      </div>
+      <div>
+        <button type="submit">Save</button>
+        <close-button :modalName="modalName"></close-button>
+      </div>
+      <div class="error-div" v-if="formIncomplete">
+        Please complete all fields!
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -154,38 +160,3 @@ export default {
   },
 };
 </script>
-
-
-
-
-<style scoped>
-form {
-  border: 1px solid #ff81d0;
-  border-radius: 12px;
-  padding: 1rem;
-}
-
-label {
-  padding-left: 10px;
-}
-
-#movie-title {
-  margin-left: 10px;
-}
-input.invalid {
-  border-color: yellow;
-}
-.radio-wrapper {
-  margin-top: 5px;
-  padding: 5px;
-  display: inline-block;
-}
-
-.radio-wrapper.invalid {
-  outline: 2px solid yellow;
-  margin-top: 5px;
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-}
-</style>

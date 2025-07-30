@@ -2,7 +2,7 @@
   <section>
     <recommendation-filter @change-filters="setFilters"></recommendation-filter>
     <div class="container">
-      <ul class="movie-list">
+      <ul class="movie-list item">
         <movie-item
           v-for="movie in filteredMovies"
           :key="movie.id + '-' + movie.review"
@@ -149,12 +149,3 @@ export default {
 };
 </script>
 
-<style scoped>
-ul {
-  margin: 1rem 0;
-  border: 1px solid #ff81d0;
-  border-radius: 12px;
-  padding: 1rem;
-  list-style: none;
-}
-</style>

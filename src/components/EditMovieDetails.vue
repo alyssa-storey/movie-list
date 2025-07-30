@@ -2,15 +2,18 @@
   <div v-show="open" class="backdrop"></div>
   <transition>
     <dialog open v-if="open">
-      <div class="review">
-        <h1>Edit</h1>
-      </div>
+      <h1>Edit</h1>
       <form @submit.prevent="submitForm" class="edit-movie-details">
-        <div class="form-control edit-section">
+        <div class="form-control item">
           <label for="movie-title">Title</label>
-          <input id="movie-title" type="text" v-model="movieTitle" />
+          <input
+            id="movie-title"
+            type="text"
+            v-model="movieTitle"
+            :class="{ invalid: formIncomplete && movieTitle == '' }"
+          />
         </div>
-        <div class="form-control edit-section">
+        <div class="form-control item">
           <div class="radio-wrapper">
             <div>
               <input
@@ -36,21 +39,26 @@
                   id="movie-title"
                   type="text"
                   v-model="recommendingFriend"
+                  :class="{
+                    invalid: formIncomplete && recommendingFriend == '',
+                  }"
+                  class="radio-wrapper"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div v-if="watched" class="form-control edit-section">
+        <div v-if="watched" class="form-control item">
           <label for="movie-review">What did you think?</label>
           <textarea
             id="movie-review"
             type="text"
             v-model="movieReview"
+            :class="{ invalid: formIncomplete && movieReview == '' }"
           ></textarea>
         </div>
         <div>
-          <button class="submit" type="submit">Submit</button>
+          <button class="submit-btn" type="submit">Submit</button>
           <close-button :modalName="modalName"></close-button>
         </div>
         <div class="error-div" v-if="formIncomplete">
@@ -150,55 +158,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-dialog {
-  position: fixed;
-  top: 30vh;
-  width: 30rem;
-  left: calc(50% - 15rem);
-  margin: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
-  padding: 1rem;
-  background-color: #919151;
-  z-index: 100;
-  border: none;
-  text-align: center;
-
-  /* animation: modal 0.3s ease-out forwards; */
-}
-
-.modal-enter-active {
-  animation: modal 0.3s ease-out;
-}
-
-.modal-leave-active {
-  animation: modal 0.3s ease-in reverse;
-}
-.review {
-  color: white;
-  margin-right: 10px;
-}
-
-@keyframes modal {
-  from {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-textarea.invalid {
-  border-color: yellow;
-}
-
-.error-div {
-  color: white;
-}
-</style>
 
