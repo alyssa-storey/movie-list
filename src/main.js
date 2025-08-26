@@ -1,7 +1,11 @@
 import './assets/main.css'
 import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
 import App from './App.vue'
+import MyMovieList from './components/MyMovieList.vue';
+import Top100 from './components/Top100.vue'
+
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -85,8 +89,6 @@ const store = createStore({
         },
         SAVE_REVIEW(state, updatedMovie) {
             const movie = state.movieList.find(x => x.id === updatedMovie.id)
-            console.log('movie', movie);
-            console.log('updatedMovie', updatedMovie);
             if (movie) {
                 movie.watched = updatedMovie.watched;
                 movie.review = updatedMovie.review;
@@ -153,7 +155,18 @@ const store = createStore({
 })
 
 const app = createApp(App)
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        { path: '/mymovielist', component: MyMovieList },
+        { path: '/top100', component: Top100 },
+        { path: '/', redirect: '/mymovielist' }
+
+    ],
+    linkActiveClass: 'active'
+});
 app.use(store);
+app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 

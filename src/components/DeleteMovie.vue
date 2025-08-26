@@ -1,7 +1,7 @@
 <template>
-  <div v-show="open" class="backdrop"></div>
+  <div class="backdrop"></div>
   <transition>
-    <dialog open v-if="open">
+    <dialog open>
       <div class="item">
         <h1>Are you sure you want to delete this movie?</h1>
       </div>
@@ -18,7 +18,6 @@ import { useStore } from "vuex";
 import CloseButton from "./CloseButton.vue";
 export default {
   props: {
-    open: Boolean,
     modalName: {
       type: String,
       required: true,

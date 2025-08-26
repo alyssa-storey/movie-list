@@ -10,7 +10,7 @@
           :title="movie.title"
           v-model:watched="movie.watched"
           :recommender="movie.recommender"
-          v-model:review="movie.review"
+          :review="movie.review"
           @selectMovie="setSelectedMovie"
         ></movie-item>
         <no-results v-if="noResults"></no-results>
@@ -18,22 +18,17 @@
     </div>
   </section>
   <!--MODALS-->
-  <enter-review
-    v-if="enterReviewModalIsVisible"
-    :open="enterReviewModalIsVisible"
-    :modalName="'addReviewModal'"
-  >
+  <enter-review v-if="enterReviewModalIsVisible" :modalName="'addReviewModal'">
   </enter-review>
   <delete-movie
     v-if="deleteModalIsVisible"
-    :open="deleteModalIsVisible"
     :modalName="'deleteConfirmationModal'"
   >
   </delete-movie>
+  <!-- Why do these two modals need open, but edit doesnt? -->
 
   <edit-movie-details
     v-if="editModalIsVisible"
-    :open="editModalIsVisible"
     :id="selectedMovieId"
     :modalName="'editDetailsModal'"
   ></edit-movie-details>
@@ -109,7 +104,7 @@ export default {
       });
     });
 
-    console.log("filteredMovies", filteredMovies);
+    // console.log("filteredMovies", filteredMovies);
     const noResults = computed(() => filteredMovies.value.length === 0);
 
     function setFilters(updatedFilters) {

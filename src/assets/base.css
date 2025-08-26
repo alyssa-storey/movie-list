@@ -59,7 +59,7 @@
 }
 
 body {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   color: var(--color-text);
   background: var(--color-background);
   transition:
@@ -80,15 +80,11 @@ body {
     'Helvetica Neue',
     sans-serif;
   font-size: 20px;
-  text-rendering: optimizeLegibility;
+  /* text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
-
-.wrapper {
-  width: 100%;
-}
 
 .item {
   margin: 1rem 0;
@@ -145,7 +141,7 @@ h1 {
 /* Edit Movie */
 .edit-movie-details label {
   color: white;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 /* Add Movie */
@@ -253,6 +249,7 @@ input[type="text"] {
 /* Error */
 .error-div,
 .invalid {
+  color: white;
   outline: 2px solid yellow;
   margin: 10px 0px;
   padding: 10px;

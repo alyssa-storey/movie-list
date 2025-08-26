@@ -1,7 +1,6 @@
 <template>
-  <div v-show="open" class="backdrop"></div>
   <transition>
-    <dialog open v-if="open">
+    <dialog open>
       <form @submit.prevent="submitForm">
         <div class="form-control">
           <h1>What did you think?</h1>
@@ -30,7 +29,6 @@ import { useStore } from "vuex";
 export default {
   components: { CloseButton },
   props: {
-    open: Boolean,
     modalName: {
       type: String,
       required: true,

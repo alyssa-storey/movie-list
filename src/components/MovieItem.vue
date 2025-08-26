@@ -99,7 +99,7 @@ export default {
           watched: false,
           review: "",
         };
-        store.dispatch("saveWatchedMovie", movie);
+        store.dispatch("saveReviewAction", movie);
       }
     }
 

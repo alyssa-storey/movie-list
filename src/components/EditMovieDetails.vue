@@ -1,7 +1,7 @@
 <template>
-  <div v-show="open" class="backdrop"></div>
+  <div class="backdrop"></div>
   <transition>
-    <dialog open v-if="open">
+    <dialog open>
       <h1>Edit</h1>
       <form @submit.prevent="submitForm" class="edit-movie-details">
         <div class="form-control item">
@@ -9,7 +9,7 @@
           <input
             id="movie-title"
             type="text"
-            v-model="movieTitle"
+            v-model.trim="movieTitle"
             :class="{ invalid: formIncomplete && movieTitle == '' }"
           />
         </div>
@@ -20,7 +20,7 @@
                 id="my-choice"
                 name="Recommendation"
                 type="radio"
-                :value="'MyChoice'"
+                :value="false"
                 v-model="wasRecommended"
               />
               <label for="my-choice">My Pick</label>
@@ -30,11 +30,11 @@
                 id="friend-recommendation"
                 name="Recommendation"
                 type="radio"
-                :value="'Recommended'"
-                v-model="wasRecommended"
+                :value="true"
+                v-model.trim="wasRecommended"
               />
               <label for="friend-recommendation">Recommended</label>
-              <div v-if="wasRecommended == 'Recommended'">
+              <div v-if="wasRecommended">
                 <input
                   id="movie-title"
                   type="text"
@@ -75,21 +75,17 @@ import { useStore } from "vuex";
 
 import CloseButton from "./CloseButton.vue";
 export default {
-  props: ["open", "id", "modalName"],
+  props: ["id", "modalName"],
   emits: ["hideDialog", "saveReview"],
   components: { CloseButton },
   setup(props) {
     const store = useStore();
     const selectedMovie = store.state.selectedMovie;
-    const movieId = props.id;
     const movieTitle = ref(selectedMovie.title);
     const movieReview = ref(selectedMovie.review);
-    const wasRecommended = ref(
-      selectedMovie.wasRecommended ? "Recommended" : "MyChoice"
-    );
-    const recommendedBy = ref(selectedMovie.wasRecommended);
+    const wasRecommended = ref(selectedMovie.wasRecommended);
     const recommendingFriend = ref(
-      recommendedBy ? selectedMovie.recommender : null
+      wasRecommended ? selectedMovie.recommender : null
     );
     const watched = ref(selectedMovie.watched);
     console.log("selectedMovie", selectedMovie);
@@ -102,11 +98,8 @@ export default {
         var movie = {
           id: selectedMovie.id,
           title: movieTitle.value,
-          wasRecommended: wasRecommended.value == "Recommended" ? true : false,
-          recommender:
-            wasRecommended.value == "Recommended"
-              ? recommendingFriend.value
-              : "",
+          wasRecommended: wasRecommended.value,
+          recommender: wasRecommended.value ? recommendingFriend.value : "",
           review: movieReview.value,
         };
         console.log("submitting movie", movie);
@@ -120,8 +113,7 @@ export default {
     function validateForm() {
       if (
         movieTitle.value == "" ||
-        (wasRecommended.value == "Recommended" &&
-          recommendingFriend.value == "") ||
+        (wasRecommended.value && recommendingFriend.value == "") ||
         (watched.value && movieReview.value == "")
       ) {
         return false;
@@ -135,9 +127,8 @@ export default {
       () => {
         if (
           movieTitle.value != "" &&
-          (wasRecommended.value == "MyChoice" ||
-            (wasRecommended.value == "Recommended" &&
-              recommendingFriend.value != "")) &&
+          (!wasRecommended.value ||
+            (wasRecommended.value && recommendingFriend.value != "")) &&
           (!watched.value || (watched.value && movieReview.value != ""))
         ) {
           formIncomplete.value = false;
@@ -152,7 +143,6 @@ export default {
       movieTitle,
       recommendingFriend,
       wasRecommended,
-      recommendedBy,
       watched,
     };
   },

@@ -1,16 +1,14 @@
 <template>
   <div class="add-movie">
-    <div>
-      <button @click="showAddMovieForm" v-show="!addNewMovieIsVisible">
-        Add New Movie
-      </button>
-    </div>
+    <button @click="showAddMovieForm" v-show="!addNewMovieIsVisible">
+      Add New Movie
+    </button>
     <form
       @submit.prevent="submitForm"
       v-show="addNewMovieIsVisible"
       class="item"
     >
-      <div class="form-control movie-title">
+      <div class="form-control">
         <label for="movie-title">Movie Title</label>
         <input
           id="movie-title"
@@ -35,7 +33,7 @@
               :value="false"
               v-model="wasRecommended"
             />
-            <label for="my-choice">My Pick</label>
+            <label for="my-choice">My Choice</label>
           </div>
           <div>
             <input
