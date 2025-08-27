@@ -16,7 +16,7 @@ export default {
   components: { MovieList, AddMovieForm, NoMovies },
   setup() {
     const store = useStore();
-    const listHasMovies = computed(() => store.getters.movieList.length > 0);
+    const listHasMovies = computed(() => store.getters.activeList.length > 0);
     return { listHasMovies };
   },
 };

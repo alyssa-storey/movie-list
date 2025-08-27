@@ -3,10 +3,8 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
 import App from './App.vue'
-import MyMovieList from './components/MyMovieList.vue';
-import Top100 from './components/Top100.vue'
-
-
+import WatchView from './components/WatchView.vue';
+import FavoriteView from './components/FavoriteView.vue';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
@@ -18,6 +16,7 @@ library.add(faPenToSquare)
 const store = createStore({
     state() {
         return {
+            watchList: true,
             selectedMovieId: null,
             selectedMovie: {
                 id: null,
@@ -72,6 +71,15 @@ const store = createStore({
                     watched: false,
                     review: "",
                 }
+            ],
+            favoriteList: [
+                {
+                    id: 1,
+                    recListId: 0,
+                    title: "Palm Springs",
+                    fromRecList: false,
+                    review: "Fun movie but also had a lot of great conversations prompted by this movie."
+                }
             ]
         }
     },
@@ -108,7 +116,13 @@ const store = createStore({
         },
 
         DELETE_MOVIE(state, movieId) {
-            state.movieList = state.movieList.filter(movie => movie.id !== movieId);
+            if (state.watchList) {
+                state.movieList = state.movieList.filter(movie => movie.id !== movieId);
+                console.log('state.watchList', state.movieList);
+            } else {
+                state.favoriteList = state.favoriteList.filter(movie => movie.id !== movieId);
+                console.log('state.favoriteList', state.favoriteList);
+            }
         },
 
         HIDE_ELEMENT(state, modalName) {
@@ -125,6 +139,9 @@ const store = createStore({
             if (movie) {
                 movie.watched = false;
             }
+        },
+        SET_LIST(state, value) {
+            state.watchList = value
         }
     },
     actions: {
@@ -146,10 +163,9 @@ const store = createStore({
 
     },
     getters: {
-        movieList(state) {
-            return state.movieList;
-        }
-
+        activeList(state) {
+            return state.watchList ? state.movieList : state.favoriteList;
+        },
     }
 
 })
@@ -158,9 +174,9 @@ const app = createApp(App)
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/mymovielist', component: MyMovieList },
-        { path: '/top100', component: Top100 },
-        { path: '/', redirect: '/mymovielist' }
+        { path: '/watch', component: WatchView },
+        { path: '/favorites', component: FavoriteView },
+        { path: '/', redirect: '/watch' }
 
     ],
     linkActiveClass: 'active'
@@ -168,6 +184,11 @@ const router = createRouter({
 app.use(store);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+router.afterEach((to) => {
+    store.commit("SET_LIST", to.path === "/watch")
+})
+
 app.mount('#app')
 
 

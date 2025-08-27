@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
-    <router-link to="/mymovielist" class="nav-btn">My Movie List</router-link>
-    <router-link to="/top100" class="nav-btn">Top Movies</router-link>
+    <router-link to="/watch" class="nav-btn">Watch List</router-link>
+    <router-link to="/favorites" class="nav-btn">Favorite Movies</router-link>
   </nav>
 </template>
 
