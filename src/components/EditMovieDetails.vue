@@ -13,7 +13,7 @@
             :class="{ invalid: formIncomplete && movieTitle == '' }"
           />
         </div>
-        <div class="form-control item">
+        <div class="form-control item" v-if="watchList">
           <div class="radio-wrapper">
             <div>
               <input
@@ -49,7 +49,7 @@
           </div>
         </div>
         <div v-if="watched" class="form-control item">
-          <label for="movie-review">What did you think?</label>
+          <label for="movie-review">Review:</label>
           <textarea
             id="movie-review"
             type="text"
@@ -88,6 +88,8 @@ export default {
       wasRecommended ? selectedMovie.recommender : null
     );
     const watched = ref(selectedMovie.watched);
+    const watchList = store.state.watchList;
+
     console.log("selectedMovie", selectedMovie);
 
     let formIncomplete = ref(false);
@@ -144,6 +146,7 @@ export default {
       recommendingFriend,
       wasRecommended,
       watched,
+      watchList,
     };
   },
 };

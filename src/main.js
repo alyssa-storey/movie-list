@@ -86,7 +86,7 @@ const store = createStore({
                     title: "Palm Springs",
                     wasRecommended: false,
                     recommender: "",
-                    watched: false,
+                    watched: true,
                     review: "Fun movie but also had a lot of great conversations prompted by this movie.",
                     watchListMovie: false,
                     starred: false,
@@ -153,6 +153,8 @@ const store = createStore({
         },
 
         SHOW_ELEMENT(state, modalName) {
+            console.log('state', state);
+            console.log('modalName', modalName);
             state.modals[modalName] = true;
         },
 

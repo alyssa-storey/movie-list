@@ -19,6 +19,11 @@
     :modalName="'deleteConfirmationModal'"
   >
   </delete-movie>
+  <edit-movie-details
+    v-if="editModalIsVisible"
+    :id="selectedMovieId"
+    :modalName="'editDetailsModal'"
+  ></edit-movie-details>
 </template>
 
 <script>
@@ -26,21 +31,32 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import FavoriteItem from "./FavoriteItem.vue";
 import DeleteMovie from "./DeleteMovie.vue";
+import EditMovieDetails from "./EditMovieDetails.vue";
 
 export default {
   components: {
     FavoriteItem,
     DeleteMovie,
+    EditMovieDetails,
   },
   setup(props) {
     const store = useStore();
     const favoriteList = computed(() => store.getters.favoriteList);
+    const selectedMovieId = computed(() => store.state.selectedMovieId);
 
     const deleteModalIsVisible = computed(
       () => store.state.modals.deleteConfirmationModal
     );
+    const editModalIsVisible = computed(
+      () => store.state.modals.editDetailsModal
+    );
 
-    return { favoriteList, deleteModalIsVisible };
+    return {
+      favoriteList,
+      deleteModalIsVisible,
+      editModalIsVisible,
+      selectedMovieId,
+    };
   },
 };
 </script>
