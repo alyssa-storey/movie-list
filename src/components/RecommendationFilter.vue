@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Alyssa's Movie List</h2>
+    <h2>Watch List</h2>
     <div>
       <button
         @click="resetFilter(true)"

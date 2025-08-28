@@ -1,6 +1,7 @@
 <template>
   <section>
     <div class="container">
+      <h2>My Favorite Movies</h2>
       <ul class="movie-list item">
         <favorite-item
           v-for="movie in favoriteList"

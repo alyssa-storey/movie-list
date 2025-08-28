@@ -153,8 +153,6 @@ const store = createStore({
         },
 
         SHOW_ELEMENT(state, modalName) {
-            console.log('state', state);
-            console.log('modalName', modalName);
             state.modals[modalName] = true;
         },
 
