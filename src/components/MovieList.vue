@@ -83,7 +83,7 @@ export default {
       () => store.state.modals.editDetailsModal
     );
 
-    const movieList = computed(() => store.state.movieList);
+    const movieList = computed(() => store.getters.watchList);
 
     const filteredMovies = computed(() => {
       return movieList.value.filter((movie) => {

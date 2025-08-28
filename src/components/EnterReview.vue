@@ -13,6 +13,16 @@
           <div class="error-div" v-if="formIncomplete">
             Please complete all fields!
           </div>
+          <div class="new-fav">
+            <h4>New Favorite?</h4>
+            <input
+              type="checkbox"
+              id="star"
+              class="star-checkbox"
+              @change="(event) => handleFavoriteChange(event, movieId)"
+            />
+            <label for="star" class="star">&#9733;</label>
+          </div>
         </div>
         <button class="submit-btn" type="submit">Submit</button>
         <close-button :modalName="modalName"></close-button>
@@ -36,17 +46,30 @@ export default {
   },
   setup() {
     const movieReview = ref("");
+    let starred = ref(false);
     let formIncomplete = ref(false);
     const store = useStore();
     const selectedMovieId = store.state.selectedMovieId;
 
+    function handleFavoriteChange(event) {
+      const isChecked = event.target.checked;
+      console.log("isChecked", isChecked);
+      if (isChecked) {
+        starred = true;
+      } else {
+        starred = false;
+      }
+    }
+
     function submitForm(value) {
       let validated = validateForm();
+
       if (validated) {
         var movie = {
           id: selectedMovieId,
           watched: true,
           review: movieReview.value,
+          starred: starred,
         };
         //review.value = value;
         store.dispatch("saveReviewAction", movie);
@@ -75,7 +98,31 @@ export default {
       submitForm,
       formIncomplete,
       selectedMovieId,
+      handleFavoriteChange,
     };
   },
 };
 </script>
+<style scoped>
+input.star-checkbox {
+  display: none;
+}
+
+label.star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: lightgray;
+  transition: color 0.3s ease;
+}
+
+input.star-checkbox:checked + label.star {
+  color: gold;
+}
+
+.new-fav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+</style>

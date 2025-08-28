@@ -38,6 +38,8 @@ const store = createStore({
                     recommender: "",
                     watched: true,
                     review: "Had some good conversations after seeing this.",
+                    watchListMovie: true,
+                    starred: false,
                 },
                 {
                     id: 2,
@@ -46,6 +48,8 @@ const store = createStore({
                     recommender: "",
                     watched: false,
                     review: "",
+                    watchListMovie: true,
+                    starred: false,
                 },
                 {
                     id: 3,
@@ -54,6 +58,8 @@ const store = createStore({
                     recommender: "",
                     watched: true,
                     review: "Fun action movie. Interesting concept, especially with the rise of AI.",
+                    watchListMovie: true,
+                    starred: false,
                 },
                 {
                     id: 4,
@@ -62,6 +68,8 @@ const store = createStore({
                     recommender: "Jess",
                     watched: true,
                     review: "Loved it.",
+                    watchListMovie: true,
+                    starred: true,
                 },
                 {
                     id: 5,
@@ -70,17 +78,20 @@ const store = createStore({
                     recommender: "Nathan",
                     watched: false,
                     review: "",
+                    watchListMovie: true,
+                    starred: false,
+                },
+                {
+                    id: 6,
+                    title: "Palm Springs",
+                    wasRecommended: false,
+                    recommender: "",
+                    watched: false,
+                    review: "Fun movie but also had a lot of great conversations prompted by this movie.",
+                    watchListMovie: false,
+                    starred: false,
                 }
             ],
-            favoriteList: [
-                {
-                    id: 1,
-                    recListId: 0,
-                    title: "Palm Springs",
-                    fromRecList: false,
-                    review: "Fun movie but also had a lot of great conversations prompted by this movie."
-                }
-            ]
         }
     },
     mutations: {
@@ -100,6 +111,7 @@ const store = createStore({
             if (movie) {
                 movie.watched = updatedMovie.watched;
                 movie.review = updatedMovie.review;
+                movie.starred = updatedMovie.starred;
             }
             console.log('movieList', state.movieList)
         },
@@ -116,12 +128,23 @@ const store = createStore({
         },
 
         DELETE_MOVIE(state, movieId) {
+            const movie = state.movieList.find(x => x.id === movieId)
+            //if you're deleting from the watch list
             if (state.watchList) {
-                state.movieList = state.movieList.filter(movie => movie.id !== movieId);
-                console.log('state.watchList', state.movieList);
+                if (!movie.starred) { //delete from watchlist
+                    state.movieList = state.movieList.filter(movie => movie.id !== movieId);
+                } else { //delete from watchList, keep on fav list
+                    movie.watchListMovie = false;
+                    movie.starred = false;
+                }
+                //if you're deleting from fav list
             } else {
-                state.favoriteList = state.favoriteList.filter(movie => movie.id !== movieId);
-                console.log('state.favoriteList', state.favoriteList);
+                if (movie.watchListMovie) { //if watch list movie, remain on watch list, delete from fav list
+                    movie.favoriteList = false;
+                    movie.starred = false;
+                } else { //delete from fav list
+                    state.movieList = state.movieList.filter(movie => movie.id !== movieId);
+                }
             }
         },
 
@@ -166,6 +189,12 @@ const store = createStore({
         activeList(state) {
             return state.watchList ? state.movieList : state.favoriteList;
         },
+        listHasMovies: (state) => {
+            return state.watchList ? state.movieList.filter(movie => movie.watchListMovie === true) : state.movieList.filter(movie => movie.watchListMovie === false)
+        },
+        favoriteList: (state) => state.movieList.filter(movie => !movie.watchListMovie || movie.watchListMovie && movie.starred),
+        watchList: (state) => state.movieList.filter(movie => movie.watchListMovie)
+
     }
 
 })
