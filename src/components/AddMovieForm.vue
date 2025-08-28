@@ -19,45 +19,56 @@
         />
       </div>
       <hr />
-      <div class="form-control">
-        <h4>Recommended By:</h4>
-        <div
-          :class="{ invalid: formIncomplete && wasRecommended == null }"
-          class="radio-wrapper"
-        >
-          <div>
-            <input
-              id="my-choice"
-              name="Recommendation"
-              type="radio"
-              :value="false"
-              v-model="wasRecommended"
-            />
-            <label for="my-choice">My Choice</label>
+      <div v-if="watchList">
+        <div class="form-control">
+          <h4>Recommended By:</h4>
+          <div
+            :class="{ invalid: formIncomplete && wasRecommended == null }"
+            class="radio-wrapper"
+          >
+            <div>
+              <input
+                id="my-choice"
+                name="Recommendation"
+                type="radio"
+                :value="false"
+                v-model="wasRecommended"
+              />
+              <label for="my-choice">My Choice</label>
+            </div>
+            <div>
+              <input
+                id="friend-recommendation"
+                name="Recommendation"
+                type="radio"
+                :value="true"
+                v-model="wasRecommended"
+              />
+              <label for="friend-recommendation">Recommended</label>
+            </div>
           </div>
-          <div>
+        </div>
+        <div class="form-control">
+          <div v-if="wasRecommended">
+            <label for="recommended-by">This movie was recommend by: </label>
             <input
-              id="friend-recommendation"
-              name="Recommendation"
-              type="radio"
-              :value="true"
-              v-model="wasRecommended"
+              id="recommended-by"
+              name="RecommendedBy"
+              type="text"
+              v-model.trim="recommender"
+              :class="{ invalid: formIncomplete && recommender == '' }"
             />
-            <label for="friend-recommendation">Recommended</label>
           </div>
         </div>
       </div>
-      <div class="form-control">
-        <div v-if="wasRecommended">
-          <label for="recommended-by">This movie was recommend by: </label>
-          <input
-            id="recommended-by"
-            name="RecommendedBy"
-            type="text"
-            v-model.trim="recommender"
-            :class="{ invalid: formIncomplete && recommender == '' }"
-          />
-        </div>
+      <div v-else class="form-control">
+        <label for="fav-review">Why do you love this movie?</label>
+        <textarea
+          id="fav-review"
+          name="favReview"
+          v-model.trim="favReview"
+          :class="{ invalid: formIncomplete }"
+        ></textarea>
       </div>
       <div>
         <button type="submit">Save</button>
@@ -87,26 +98,29 @@ export default {
     const movieTitle = ref("");
     const wasRecommended = ref(null);
     const recommender = ref("");
+    const favReview = ref("");
     let formIncomplete = ref(false);
     const addNewMovieIsVisible = computed(
       () => store.state.movieList.length <= 0 || store.state.modals.addNewMovie
     );
 
     const store = useStore();
-
+    const watchList = store.state.watchList;
     //methods
     function submitForm() {
       let validated = validateForm();
       let test = Math.random().toString() * 100;
-      console.log("new id", test);
 
       if (validated) {
         var newMovie = {
           id: Math.random().toString() * 100, //change this at some point
           title: movieTitle.value,
-          wasRecommended: wasRecommended.value,
-          recommender: recommender.value,
-          watched: false,
+          wasRecommended: watchList ? wasRecommended.value : false,
+          recommender: watchList ? recommender.value : false,
+          watched: watchList ? false : true,
+          watchListMovie: watchList ? true : false,
+          review: watchList ? "" : favReview,
+          starred: watchList ? false : true,
         };
         store.dispatch("addMovieAction", newMovie);
 
@@ -125,9 +139,15 @@ export default {
 
     function validateForm() {
       if (
-        movieTitle.value == "" ||
-        wasRecommended.value == null ||
-        (wasRecommended.value === true && recommender.value == "")
+        watchList &&
+        (movieTitle.value == "" ||
+          wasRecommended.value == null ||
+          (wasRecommended.value === true && recommender.value == ""))
+      ) {
+        return false;
+      } else if (
+        !watchList &&
+        (movieTitle.value == "" || favReview.value == "")
       ) {
         return false;
       } else {
@@ -135,12 +155,14 @@ export default {
       }
     }
     //watchers
-    watch([movieTitle, wasRecommended, recommender], () => {
+    watch([movieTitle, wasRecommended, recommender, favReview], () => {
       if (
-        movieTitle.value != "" &&
-        wasRecommended.value != null &&
-        (wasRecommended.value == false ||
-          (wasRecommended.value === true && recommender.value != ""))
+        (watchList &&
+          movieTitle.value != "" &&
+          wasRecommended.value != null &&
+          (wasRecommended.value == false ||
+            (wasRecommended.value === true && recommender.value != ""))) ||
+        (!watchList && movieTitle.value != "" && favReview.value != "")
       ) {
         formIncomplete.value = false;
       }
@@ -154,7 +176,15 @@ export default {
       formIncomplete,
       showAddMovieForm,
       addNewMovieIsVisible,
+      watchList,
+      favReview,
     };
   },
 };
 </script>
+
+<style scoped>
+textarea {
+  color: #333;
+}
+</style>

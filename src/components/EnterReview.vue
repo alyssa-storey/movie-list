@@ -53,7 +53,6 @@ export default {
 
     function handleFavoriteChange(event) {
       const isChecked = event.target.checked;
-      console.log("isChecked", isChecked);
       if (isChecked) {
         starred = true;
       } else {
@@ -63,7 +62,6 @@ export default {
 
     function submitForm(value) {
       let validated = validateForm();
-
       if (validated) {
         var movie = {
           id: selectedMovieId,

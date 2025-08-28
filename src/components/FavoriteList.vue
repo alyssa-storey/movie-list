@@ -34,7 +34,6 @@ export default {
   },
   setup(props) {
     const store = useStore();
-    //const favoriteList = computed(() => store.state.movieList);
     const favoriteList = computed(() => store.getters.favoriteList);
 
     const deleteModalIsVisible = computed(
